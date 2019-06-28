@@ -20,26 +20,31 @@ public class PlantWMovementController : MonoBehaviour
 
     private const float WalkAcceleration = 0.5f;
 
+    private const float ColliderHeightPadding = 0.08f;
+    private const float GroundedColliderHeightPadding = 0.5f; // more padding will cause controller to stick to moving ground
+
+    private const float MoveAcceleration = 1f;
+    private const float MoveSpeed = 2f;
+
+    private const float MaxGroundAngle = 25f;
+
     private Vector3 _slideVelocity;
 
     private int _walkDirection;
     private Vector3 _walkVelocity;
 
     private Vector3 _velocity;
-    public  bool _grounded;
+    private bool _grounded;
     private Vector3 _groundNormal;
+
     private BoxCollider2D _boxCollider;
-    private float colliderHalfHeight;
 
-    private float ColliderHeightPadding = 0.08f;
-    private float GroundedColliderHeightPadding = 0.5f; // more padding will cause controller to stick to moving ground
+    [SerializeField]
+    private Animator _animator;
 
-    public Vector3 MovementInput = Vector3.zero;
+    private float _colliderHalfHeight;
 
-    private const float MoveAcceleration = 1f;
-    private const float MoveSpeed = 2f;
-
-    private const float MaxGroundAngle = 25f;
+    private Vector3 MovementInput = Vector3.zero;
 
     private LayerMask _groundLayerMask;
 
@@ -55,7 +60,7 @@ public class PlantWMovementController : MonoBehaviour
             Debug.LogError("MovementController2D requires BoxCollider2D");
         }
 
-        colliderHalfHeight = (_boxCollider.bounds.size.y / 2);
+        _colliderHalfHeight = (_boxCollider.bounds.size.y / 2);
 
         _groundLayerMask = LayerMask.NameToLayer("Ground");
         if (_groundLayerMask == -1)
@@ -79,19 +84,20 @@ public class PlantWMovementController : MonoBehaviour
     void Update()
     {
         MovementInput = new Vector3(_walkDirection, 0, 0);
+        transform.localScale = new Vector3(_walkDirection, 1, 1);
 
         // ground check
-        hit = Physics2D.Raycast(transform.position, -Vector3.up, colliderHalfHeight + (_grounded ? GroundedColliderHeightPadding : ColliderHeightPadding), -_groundLayerMask);
+        hit = Physics2D.Raycast(transform.position, -Vector3.up, _colliderHalfHeight + (_grounded ? GroundedColliderHeightPadding : ColliderHeightPadding), -_groundLayerMask);
         if (hit.collider != null)
         {
-            if (Vector3.Distance(transform.position, hit.point) < colliderHalfHeight)
+            if (Vector3.Distance(transform.position, hit.point) < _colliderHalfHeight)
             {
                 const float GroundPushSpeed = 20;
-                transform.position = Vector3.Lerp(transform.position, hit.point + new Vector2(0, colliderHalfHeight), GroundPushSpeed * Time.deltaTime);
+                transform.position = Vector3.Lerp(transform.position, hit.point + new Vector2(0, _colliderHalfHeight), GroundPushSpeed * Time.deltaTime);
             }
             else
             {
-                transform.position = hit.point + new Vector2(0, colliderHalfHeight);
+                transform.position = hit.point + new Vector2(0, _colliderHalfHeight);
             }
             _grounded = true;
             _groundNormal = hit.normal;
@@ -105,6 +111,7 @@ public class PlantWMovementController : MonoBehaviour
         if (!_grounded)
         {
             transform.position += Physics.gravity * Time.deltaTime;
+            _animator.SetBool("IsRunning", false);
             return;
         }
 
@@ -120,6 +127,8 @@ public class PlantWMovementController : MonoBehaviour
 
             // move
             transform.position += MovementInput * MoveSpeed * Time.deltaTime;
+
+            _animator.SetBool("IsRunning", true);
         }
 
         // handle slide movement

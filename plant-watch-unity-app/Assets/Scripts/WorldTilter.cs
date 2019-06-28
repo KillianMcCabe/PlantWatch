@@ -14,7 +14,7 @@ public class WorldTilter : MonoBehaviour
     void Update()
     {
 #if !UNITY_EDITOR
-        transform.rotation = Quaternion.Euler(0, 0, -(Quaternion.Euler(-90f, 0, 0) * Input.gyro.attitude).eulerAngles.z);
+        transform.rotation = Quaternion.Euler(0, 0, (Quaternion.Euler(-90f, 0, 0) * Input.gyro.attitude).eulerAngles.z);
 #endif
     }
 }
