@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,10 @@ public class PlantWMovementController : MonoBehaviour
         Walk
     }
 
+    public Action OnDeath;
+
     private const float GroundRaycastDist = 1f;
+    private const float DeathHeight = -4f;
 
     private const float WalkSpeed = 1f;
     private const float MaxSlideAcceleration = 8f;
@@ -68,7 +72,7 @@ public class PlantWMovementController : MonoBehaviour
             Debug.LogError("MovementController2D requires layerMask \"Ground\"");
         }
 
-        if (Random.Range(0f, 100f) <= 50f)
+        if (UnityEngine.Random.Range(0f, 100f) <= 50f)
         {
             _walkDirection = -1;
         }
@@ -107,36 +111,45 @@ public class PlantWMovementController : MonoBehaviour
             _grounded = false;
         }
 
-        // apply gravity
         if (!_grounded)
         {
+            // apply gravity
             transform.position += Physics.gravity * Time.deltaTime;
             _animator.SetBool("IsRunning", false);
-            return;
         }
-
-        Quaternion toSlopeRotation = Quaternion.FromToRotation(Vector3.up, _groundNormal);
-
-        // handle character movement
-        // check if angle is too steep for character movement
-        float groundAngle = CalculateGroundAngle();
-        if (groundAngle < MaxGroundAngle)
+        else
         {
-            // adjust movement for slope
-            MovementInput = toSlopeRotation * MovementInput;
+            Quaternion toSlopeRotation = Quaternion.FromToRotation(Vector3.up, _groundNormal);
 
-            // move
-            transform.position += MovementInput * MoveSpeed * Time.deltaTime;
+            // handle character movement
+            // check if angle is too steep for character movement
+            float groundAngle = CalculateGroundAngle();
+            if (groundAngle < MaxGroundAngle)
+            {
+                // adjust movement for slope
+                MovementInput = toSlopeRotation * MovementInput;
 
-            _animator.SetBool("IsRunning", true);
+                // move
+                transform.position += MovementInput * MoveSpeed * Time.deltaTime;
+
+                _animator.SetBool("IsRunning", true);
+            }
+
+            // handle slide movement
+            const float SlideSpeed = 0.25f;
+            float slopeSignedAngle = Vector3.SignedAngle(_groundNormal, Vector3.up, Vector3.forward);
+            Vector3 slopeMovement = new Vector3(slopeSignedAngle, 0, 0);
+            slopeMovement = toSlopeRotation * slopeMovement;
+            transform.position += slopeMovement * SlideSpeed * Time.deltaTime;
         }
 
-        // handle slide movement
-        const float SlideSpeed = 0.25f;
-        float slopeSignedAngle = Vector3.SignedAngle(_groundNormal, Vector3.up, Vector3.forward);
-        Vector3 slopeMovement = new Vector3(slopeSignedAngle, 0, 0);
-        slopeMovement = toSlopeRotation * slopeMovement;
-        transform.position += slopeMovement * SlideSpeed * Time.deltaTime;
+        if (transform.position.y < DeathHeight)
+        {
+            if (OnDeath != null)
+            {
+                OnDeath.Invoke();
+            }
+        }
 
         DrawDebugLines();
     }
@@ -171,7 +184,7 @@ public class PlantWMovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Random.Range(0f, 100f) <= PercChanceOfChangingWalkDirection)
+        if (UnityEngine.Random.Range(0f, 100f) <= PercChanceOfChangingWalkDirection)
         {
             _walkDirection = -_walkDirection;
         }
