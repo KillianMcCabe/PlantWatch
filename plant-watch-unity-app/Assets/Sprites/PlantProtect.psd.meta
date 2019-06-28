@@ -19,6 +19,7 @@ TextureImporter:
     21300028: Mouth
     21300030: Leg_l
     21300032: Leg_R
+    21300034: Cloud
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -336,6 +337,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 26c21da9f9fae76469e2c353f43b67b6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cloud
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1792
+        width: 512
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8db6290bfd94b240b30bc228dad2d1e
       vertices: []
       indices: 
       edges: []
