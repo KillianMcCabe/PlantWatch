@@ -16,17 +16,17 @@ public class RainCloud : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = RandomPositionWithinXBounds(XBounds);
+        transform.localPosition = RandomPositionWithinXBounds(XBounds);
         _targetPosition = RandomPositionWithinXBounds(XBounds);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position != _targetPosition)
+        if (transform.localPosition != _targetPosition)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _targetPosition, Speed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, _targetPosition) < 0.01f)
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _targetPosition, Speed * Time.deltaTime);
+            if (Vector3.Distance(transform.localPosition, _targetPosition) < 0.01f)
             {
                 _idleTime = Random.Range(MinIdleTime, MaxIdleTime);
             }
@@ -47,8 +47,8 @@ public class RainCloud : MonoBehaviour
         do
         {
             float randX = Random.Range(-xBounds, xBounds);
-            pos = new Vector3(randX, transform.position.y, transform.position.z);
-        } while (Vector3.Distance (pos, transform.position) < MinDistToNewTargetPos);
+            pos = new Vector3(randX, transform.localPosition.y, transform.localPosition.z);
+        } while (Vector3.Distance (pos, transform.localPosition) < MinDistToNewTargetPos);
         return pos;
     }
 }
