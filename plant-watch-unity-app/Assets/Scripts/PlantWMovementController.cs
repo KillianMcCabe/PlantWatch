@@ -32,6 +32,12 @@ public class PlantWMovementController : MonoBehaviour
 
     private const float MaxGroundAngle = 25f;
 
+    public bool IsWet
+    {
+        get;
+        private set;
+    }
+
     private Vector3 _slideVelocity;
 
     private int _walkDirection;
@@ -187,6 +193,23 @@ public class PlantWMovementController : MonoBehaviour
         if (UnityEngine.Random.Range(0f, 100f) <= PercChanceOfChangingWalkDirection)
         {
             _walkDirection = -_walkDirection;
+        }
+    }
+
+    // when the GameObjects collider arrange for this GameObject to travel to the left of the screen
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "RainCloud")
+        {
+            IsWet = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.tag == "RainCloud")
+        {
+            IsWet = false;
         }
     }
 }
