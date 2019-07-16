@@ -13,24 +13,22 @@ public class PlantWMovementController : MonoBehaviour
 
     public Action OnDeath;
 
-    private const float GroundRaycastDist = 1f;
-    private const float DeathHeight = -4f;
-
-    private const float WalkSpeed = 1f;
-    private const float MaxSlideAcceleration = 8f;
-    private const float WalkableGroundAngle = 45f;
+    private const float DeathHeight = -4f; // TODO: detect if offscreen instead of using a height value
+    private const float MaxGroundAngle = 25f;
     private const float PercChanceOfChangingWalkDirection = 0.5f;
-    private const float MaxFallSpeed = 10f;
-
-    private const float WalkAcceleration = 0.5f;
 
     private const float ColliderHeightPadding = 0.08f;
     private const float GroundedColliderHeightPadding = 0.5f; // more padding will cause controller to stick to moving ground
 
+    // movement consts
     private const float MoveAcceleration = 1f;
     private const float MoveSpeed = 2f;
+    private const float JumpSpeed = 12f;
+    private const float GravityAccel = 18f;
+    private const float MaxFallSpeed = 10f;
 
-    private const float MaxGroundAngle = 25f;
+    // private fields
+    private float _currentVerticalVelocity = 0f;
 
     public bool IsWet
     {
@@ -96,31 +94,49 @@ public class PlantWMovementController : MonoBehaviour
         MovementInput = new Vector3(_walkDirection, 0, 0);
         transform.localScale = new Vector3(_walkDirection, 1, 1);
 
-        // ground check
-        hit = Physics2D.Raycast(transform.position, -Vector3.up, _colliderHalfHeight + (_grounded ? GroundedColliderHeightPadding : ColliderHeightPadding), -_groundLayerMask);
-        if (hit.collider != null)
+        if (_grounded && ScreenWasTapped())
         {
-            if (Vector3.Distance(transform.position, hit.point) < _colliderHalfHeight)
-            {
-                const float GroundPushSpeed = 20;
-                transform.position = Vector3.Lerp(transform.position, hit.point + new Vector2(0, _colliderHalfHeight), GroundPushSpeed * Time.deltaTime);
-            }
-            else
-            {
-                transform.position = hit.point + new Vector2(0, _colliderHalfHeight);
-            }
-            _grounded = true;
-            _groundNormal = hit.normal;
+            // jump
+            Debug.Log("Jump");
+            _currentVerticalVelocity = JumpSpeed;
+
+            _grounded = false;
         }
         else
         {
-            _grounded = false;
+            // ground check
+            hit = Physics2D.Raycast(transform.position, -Vector3.up, _colliderHalfHeight + (_grounded ? GroundedColliderHeightPadding : ColliderHeightPadding), -_groundLayerMask);
+            if (hit.collider != null)
+            {
+                if (Vector3.Distance(transform.position, hit.point) < _colliderHalfHeight)
+                {
+                    const float GroundPushSpeed = 20;
+                    transform.position = Vector3.Lerp(transform.position, hit.point + new Vector2(0, _colliderHalfHeight), GroundPushSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position = hit.point + new Vector2(0, _colliderHalfHeight);
+                }
+
+                _grounded = true;
+                _currentVerticalVelocity = 0f;
+
+                _groundNormal = hit.normal;
+            }
+            else
+            {
+                _grounded = false;
+            }
         }
 
         if (!_grounded)
         {
             // apply gravity
-            transform.position += Physics.gravity * Time.deltaTime;
+            _currentVerticalVelocity = Mathf.MoveTowards(_currentVerticalVelocity, Physics.gravity.y, GravityAccel * Time.deltaTime);
+
+            // apply _currentVerticalVelocity
+            transform.position += new Vector3(0, _currentVerticalVelocity, 0) * Time.deltaTime;
+
             _animator.SetBool("IsRunning", false);
         }
         else
@@ -158,6 +174,27 @@ public class PlantWMovementController : MonoBehaviour
         }
 
         DrawDebugLines();
+    }
+
+    private bool ScreenWasTapped()
+    {
+#if UNITY_EDITOR
+        // check if editor game window was clicked
+        if (Input.GetMouseButtonDown(0))
+        {
+            return true;
+        }
+#else
+        // check if mobile screen was tapped
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            Debug.Log("Touch Position : " + touch.position);
+
+            return true;
+        }
+#endif
+        return false;
     }
 
     private float CalculateGroundAngle()
