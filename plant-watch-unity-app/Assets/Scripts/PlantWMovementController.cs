@@ -94,12 +94,12 @@ public class PlantWMovementController : MonoBehaviour
         MovementInput = new Vector3(_walkDirection, 0, 0);
         transform.localScale = new Vector3(_walkDirection, 1, 1);
 
+        transform.rotation = Quaternion.identity;
+
         if (_grounded && ScreenWasTapped())
         {
             // jump
-            Debug.Log("Jump");
             _currentVerticalVelocity = JumpSpeed;
-
             _grounded = false;
         }
         else
