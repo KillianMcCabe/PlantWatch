@@ -48,7 +48,7 @@ public class Plant : MonoBehaviour
     private Vector3 _slideVelocity;
     private float _currentVerticalVelocity = 0f;
     private float _walkSpeed = 0;
-    private Vector3 _walkVelocity = Vector3.zero;
+    private Vector3 _movementVelocity = Vector3.zero; // accumulative value for walk and slide velocities that persist in-air
 
     private bool _grounded;
     private Vector3 _groundNormal;
@@ -172,7 +172,7 @@ public class Plant : MonoBehaviour
             transform.position += new Vector3(0, _currentVerticalVelocity, 0) * Time.deltaTime;
 
             // apply last known walk velocity
-            transform.position += _walkVelocity * Time.deltaTime;
+            transform.position += _movementVelocity * Time.deltaTime;
 
             _animator.SetBool("IsRunning", false);
         }
@@ -194,21 +194,21 @@ public class Plant : MonoBehaviour
                     _walkSpeed = Mathf.MoveTowards(_walkSpeed, -MaxWalkSpeed, WalkAcceleration * Time.deltaTime);
                 }
 
-                _walkVelocity = new Vector3(_walkSpeed, 0, 0);
+                _movementVelocity = new Vector3(_walkSpeed, 0, 0);
 
                 // adjust movement for slope
-                _walkVelocity = toSlopeRotation * _walkVelocity;
+                _movementVelocity = toSlopeRotation * _movementVelocity;
 
-                // move
-                transform.position += _walkVelocity * Time.deltaTime;
                 _animator.SetBool("IsRunning", true);
             }
 
             // handle slide movement
             float slopeSignedAngle = Vector3.SignedAngle(_groundNormal, Vector3.up, Vector3.forward);
             Vector3 slopeMovement = new Vector3(slopeSignedAngle, 0, 0);
-            slopeMovement = toSlopeRotation * slopeMovement;
-            transform.position += slopeMovement * SlideSpeed * Time.deltaTime;
+            _movementVelocity += (toSlopeRotation * slopeMovement) * SlideSpeed;
+
+            // move
+            transform.position += _movementVelocity * Time.deltaTime;
         }
         else
         {
