@@ -57,6 +57,7 @@ public class Plant : MonoBehaviour
 
     private LayerMask _groundLayerMask;
     private Behaviour _behaviour = Behaviour.Idle;
+    private float _idleTime = 0;
 
     private bool _debug = true;
     RaycastHit2D hit;
@@ -90,11 +91,30 @@ public class Plant : MonoBehaviour
         _velocity = Vector2.zero;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        MovementInput = new Vector3(_walkDirection, 0, 0);
-        transform.localScale = new Vector3(_walkDirection, 1, 1);
+        if (_behaviour == Behaviour.Walk && UnityEngine.Random.Range(0f, 100f) <= PercChanceOfChangingWalkDirection)
+        {
+            _walkDirection = -_walkDirection;
+        }
+        else
+        {
+            _idleTime += Time.fixedDeltaTime;
+            if (_idleTime > 4)
+            {
+                _behaviour = Behaviour.Walk;
+            }
+        }
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (_behaviour == Behaviour.Walk)
+        {
+            MovementInput = new Vector3(_walkDirection, 0, 0);
+            transform.localScale = new Vector3(_walkDirection, 1, 1);
+        }
 
         transform.rotation = Quaternion.identity;
 
@@ -141,7 +161,7 @@ public class Plant : MonoBehaviour
 
             _animator.SetBool("IsRunning", false);
         }
-        else
+        else if (_behaviour == Behaviour.Walk)
         {
             Quaternion toSlopeRotation = Quaternion.FromToRotation(Vector3.up, _groundNormal);
 
@@ -155,7 +175,6 @@ public class Plant : MonoBehaviour
 
                 // move
                 transform.position += MovementInput * MoveSpeed * Time.deltaTime;
-
                 _animator.SetBool("IsRunning", true);
             }
 
@@ -165,6 +184,10 @@ public class Plant : MonoBehaviour
             Vector3 slopeMovement = new Vector3(slopeSignedAngle, 0, 0);
             slopeMovement = toSlopeRotation * slopeMovement;
             transform.position += slopeMovement * SlideSpeed * Time.deltaTime;
+        }
+        else
+        {
+            _animator.SetBool("IsRunning", false);
         }
 
         if (transform.position.y < DeathHeight)
@@ -224,14 +247,6 @@ public class Plant : MonoBehaviour
         if (_grounded)
         {
             Debug.DrawLine(hit.point, (Vector3)hit.point + _groundNormal, Color.yellow);
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (UnityEngine.Random.Range(0f, 100f) <= PercChanceOfChangingWalkDirection)
-        {
-            _walkDirection = -_walkDirection;
         }
     }
 
