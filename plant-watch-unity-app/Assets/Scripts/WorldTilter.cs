@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class WorldTilter : MonoBehaviour
 {
-    float RotateSpeed = 4f;
-
     // Start is called before the first frame update
     void Start()
     {

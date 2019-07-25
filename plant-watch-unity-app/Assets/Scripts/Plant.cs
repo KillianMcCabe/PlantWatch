@@ -28,12 +28,12 @@ public class Plant : MonoBehaviour
     private const float GroundedColliderHeightPadding = 0.5f; // more padding will cause controller to stick to moving ground
 
     // movement consts
-    private const float WalkAcceleration = 2.5f;
-    private const float MaxWalkSpeed = 2f;
+    private const float WalkAcceleration = 2.6f;
+    private const float MaxWalkSpeed = 2.5f;
     private const float JumpSpeed = 12f;
     private const float GravityAccel = 18f;
     private const float MaxFallSpeed = 10f;
-
+    private const float SlideSpeed = 0.25f;
 
     public bool IsWet
     {
@@ -42,16 +42,14 @@ public class Plant : MonoBehaviour
     }
 
     [SerializeField]
-    private Animator _animator;
-
+    private Animator _animator = null;
 
     // private fields
     private Vector3 _slideVelocity;
-    private Vector3 _walkVelocity;
     private float _currentVerticalVelocity = 0f;
     private float _walkSpeed = 0;
+    private Vector3 _walkVelocity = Vector3.zero;
 
-    private Vector3 _velocity;
     private bool _grounded;
     private Vector3 _groundNormal;
 
@@ -92,8 +90,6 @@ public class Plant : MonoBehaviour
         {
             _walkDirection = WalkDirection.Right;
         }
-
-        _velocity = Vector2.zero;
     }
 
     private void FixedUpdate()
@@ -175,6 +171,9 @@ public class Plant : MonoBehaviour
             // apply _currentVerticalVelocity
             transform.position += new Vector3(0, _currentVerticalVelocity, 0) * Time.deltaTime;
 
+            // apply last known walk velocity
+            transform.position += _walkVelocity * Time.deltaTime;
+
             _animator.SetBool("IsRunning", false);
         }
         else if (_behaviour == Behaviour.Walk)
@@ -195,18 +194,17 @@ public class Plant : MonoBehaviour
                     _walkSpeed = Mathf.MoveTowards(_walkSpeed, -MaxWalkSpeed, WalkAcceleration * Time.deltaTime);
                 }
 
-                Vector3 movement = new Vector3(_walkSpeed, 0, 0);
+                _walkVelocity = new Vector3(_walkSpeed, 0, 0);
 
                 // adjust movement for slope
-                movement = toSlopeRotation * movement;
+                _walkVelocity = toSlopeRotation * _walkVelocity;
 
                 // move
-                transform.position += movement * Time.deltaTime;
+                transform.position += _walkVelocity * Time.deltaTime;
                 _animator.SetBool("IsRunning", true);
             }
 
             // handle slide movement
-            const float SlideSpeed = 0.25f;
             float slopeSignedAngle = Vector3.SignedAngle(_groundNormal, Vector3.up, Vector3.forward);
             Vector3 slopeMovement = new Vector3(slopeSignedAngle, 0, 0);
             slopeMovement = toSlopeRotation * slopeMovement;

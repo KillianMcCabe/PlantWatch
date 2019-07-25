@@ -5,13 +5,13 @@ using UnityEngine;
 public class BirdSpawner : MonoBehaviour
 {
     private const float HorizontalSpawnBoundsPadding = 2;
-    private const float VerticalSpawnBoundsSize = 6;
+    private const float VerticalSpawnBoundsSize = 5.5f;
 
     [System.NonSerialized]
     public float SpawnRate = 5; // how man birds to spawn each second
 
     [SerializeField]
-    private Bird _birdPrefab;
+    private Bird _birdPrefab = null;
 
     private Bounds _spawnBounds;
 
