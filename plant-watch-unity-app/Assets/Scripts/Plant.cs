@@ -12,6 +12,12 @@ public class Plant : MonoBehaviour
         Walk
     }
 
+    enum WalkDirection
+    {
+        Left,
+        Right
+    }
+
     public Action OnDeath;
 
     private const float DeathHeight = -4f; // TODO: detect if offscreen instead of using a height value
@@ -22,14 +28,12 @@ public class Plant : MonoBehaviour
     private const float GroundedColliderHeightPadding = 0.5f; // more padding will cause controller to stick to moving ground
 
     // movement consts
-    private const float MoveAcceleration = 1f;
-    private const float MoveSpeed = 2f;
+    private const float WalkAcceleration = 2.5f;
+    private const float MaxWalkSpeed = 2f;
     private const float JumpSpeed = 12f;
     private const float GravityAccel = 18f;
     private const float MaxFallSpeed = 10f;
 
-    // private fields
-    private float _currentVerticalVelocity = 0f;
 
     public bool IsWet
     {
@@ -37,30 +41,31 @@ public class Plant : MonoBehaviour
         private set;
     }
 
-    private Vector3 _slideVelocity;
+    [SerializeField]
+    private Animator _animator;
 
-    private int _walkDirection;
+
+    // private fields
+    private Vector3 _slideVelocity;
     private Vector3 _walkVelocity;
+    private float _currentVerticalVelocity = 0f;
+    private float _walkSpeed = 0;
 
     private Vector3 _velocity;
     private bool _grounded;
     private Vector3 _groundNormal;
 
-    private BoxCollider2D _boxCollider;
-
-    [SerializeField]
-    private Animator _animator;
-
     private float _colliderHalfHeight;
-
-    private Vector3 MovementInput = Vector3.zero;
 
     private LayerMask _groundLayerMask;
     private Behaviour _behaviour = Behaviour.Idle;
+    private WalkDirection _walkDirection;
     private float _idleTime = 0;
 
+    private BoxCollider2D _boxCollider;
+    private RaycastHit2D hit;
+
     private bool _debug = true;
-    RaycastHit2D hit;
 
     // Start is called before the first frame update
     void Start()
@@ -79,13 +84,13 @@ public class Plant : MonoBehaviour
             Debug.LogError("MovementController2D requires layerMask \"Ground\"");
         }
 
-        if (UnityEngine.Random.Range(0f, 100f) <= 50f)
+        if (UnityEngine.Random.Range(0f, 100f) < 50f)
         {
-            _walkDirection = -1;
+            _walkDirection = WalkDirection.Left;
         }
         else
         {
-            _walkDirection = 1;
+            _walkDirection = WalkDirection.Right;
         }
 
         _velocity = Vector2.zero;
@@ -93,9 +98,17 @@ public class Plant : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_behaviour == Behaviour.Walk && UnityEngine.Random.Range(0f, 100f) <= PercChanceOfChangingWalkDirection)
+        if (_behaviour == Behaviour.Walk && UnityEngine.Random.Range(0f, 100f) < PercChanceOfChangingWalkDirection)
         {
-            _walkDirection = -_walkDirection;
+            // change direction
+            if (_walkDirection == WalkDirection.Right)
+            {
+                _walkDirection = WalkDirection.Left;
+            }
+            else
+            {
+                _walkDirection = WalkDirection.Right;
+            }
         }
         else
         {
@@ -110,10 +123,13 @@ public class Plant : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (_behaviour == Behaviour.Walk)
+        if (_walkSpeed > 0)
         {
-            MovementInput = new Vector3(_walkDirection, 0, 0);
-            transform.localScale = new Vector3(_walkDirection, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
         }
 
         transform.rotation = Quaternion.identity;
@@ -170,11 +186,22 @@ public class Plant : MonoBehaviour
             float groundAngle = CalculateGroundAngle();
             if (groundAngle < MaxGroundAngle)
             {
+                if (_walkDirection == WalkDirection.Right)
+                {
+                    _walkSpeed = Mathf.MoveTowards(_walkSpeed, MaxWalkSpeed, WalkAcceleration * Time.deltaTime);
+                }
+                else
+                {
+                    _walkSpeed = Mathf.MoveTowards(_walkSpeed, -MaxWalkSpeed, WalkAcceleration * Time.deltaTime);
+                }
+
+                Vector3 movement = new Vector3(_walkSpeed, 0, 0);
+
                 // adjust movement for slope
-                MovementInput = toSlopeRotation * MovementInput;
+                movement = toSlopeRotation * movement;
 
                 // move
-                transform.position += MovementInput * MoveSpeed * Time.deltaTime;
+                transform.position += movement * Time.deltaTime;
                 _animator.SetBool("IsRunning", true);
             }
 
@@ -188,6 +215,7 @@ public class Plant : MonoBehaviour
         else
         {
             _animator.SetBool("IsRunning", false);
+            _walkSpeed = Mathf.MoveTowards(_walkSpeed, 0, WalkAcceleration * Time.deltaTime);
         }
 
         if (transform.position.y < DeathHeight)
