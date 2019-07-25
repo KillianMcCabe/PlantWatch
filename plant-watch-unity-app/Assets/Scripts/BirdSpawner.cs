@@ -5,9 +5,9 @@ using UnityEngine;
 public class BirdSpawner : MonoBehaviour
 {
     private const float HorizontalSpawnBoundsPadding = 2;
-    private const float VerticalSpawnBoundsScale = 2;
+    private const float VerticalSpawnBoundsSize = 6;
 
-    [HideInInspector]
+    [System.NonSerialized]
     public float SpawnRate = 5; // how man birds to spawn each second
 
     [SerializeField]
@@ -33,7 +33,7 @@ public class BirdSpawner : MonoBehaviour
             camera.gameObject.transform.position,
             new Vector3(
                 (horzCamExtent + HorizontalSpawnBoundsPadding) * 2,
-                (vertCamExtent * VerticalSpawnBoundsScale) * 2,
+                VerticalSpawnBoundsSize,
                 0
             )
         );

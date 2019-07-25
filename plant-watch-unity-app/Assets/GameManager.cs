@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     GameObject _restartWindow = null;
 
     [SerializeField]
-    PlantWMovementController plant = null;
+    Plant plant = null;
 
     [SerializeField]
     Text _scoreText = null;

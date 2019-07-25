@@ -1339,7 +1339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb79e305e6012848973d1afb438a2f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnRate: 2
   _birdPrefab: {fileID: 4317599127688698233, guid: 47118110683297d43b8fbc5ef6331d0e,
     type: 3}
 --- !u!1 &1030573478
@@ -6784,17 +6783,18 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.9528302
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3895731211280857877, guid: cf7a693dd8e8cdd449e1d3bc74bdc235, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cf7a693dd8e8cdd449e1d3bc74bdc235, type: 3}
 --- !u!114 &3895731209992338202 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3895731211280857877, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+  m_CorrespondingSourceObject: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
     type: 3}
   m_PrefabInstance: {fileID: 3895731209992338201}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6c44fe1cbaca8440a949912b1ae33bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cd21e60e540f564ca42ae81f4ced944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

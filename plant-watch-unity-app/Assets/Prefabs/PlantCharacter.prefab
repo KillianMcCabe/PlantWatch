@@ -596,7 +596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3895731211280857878}
   - component: {fileID: 3895731211280857876}
-  - component: {fileID: 3895731211280857877}
+  - component: {fileID: 3033214590686869724}
   m_Layer: 0
   m_Name: PlantCharacter
   m_TagString: Untagged
@@ -645,7 +645,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.45}
   m_EdgeRadius: 0
---- !u!114 &3895731211280857877
+--- !u!114 &3033214590686869724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3895731211280857874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6c44fe1cbaca8440a949912b1ae33bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cd21e60e540f564ca42ae81f4ced944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7908384081033657118}
