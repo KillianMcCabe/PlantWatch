@@ -18,6 +18,10 @@ public class WorldTilter : MonoBehaviour
 #if !UNITY_EDITOR
         // transform.rotation = Quaternion.RotateTowards(transform.rotation, worldRotation, angle * RotateSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(0, 0, (Quaternion.Euler(-90f, 0, 0) * Input.gyro.attitude).eulerAngles.z);
+#else
+        Vector3 rotationInput = Vector3.zero;
+        rotationInput.z += -Input.GetAxis("Horizontal") * 40f * Time.deltaTime;
+        transform.rotation = Quaternion.Euler(rotationInput) * transform.rotation;
 #endif
     }
 }
