@@ -43,6 +43,7 @@ public class Bird : MonoBehaviour
             if (Vector3.Dot(-col.GetContact(0).normal, Vector3.up) > 0.9f)
             {
                 GetComponent<Rigidbody2D>().gravityScale = 1;
+                GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
                 knockbackVelocity.y = MinKnockbackYVelocity;
             }
             else
