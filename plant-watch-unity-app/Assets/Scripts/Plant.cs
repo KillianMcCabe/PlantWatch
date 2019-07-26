@@ -176,14 +176,13 @@ public class Plant : MonoBehaviour
 
             _animator.SetBool("IsRunning", false);
         }
-        else if (_behaviour == Behaviour.Walk)
+        else
         {
             Quaternion toSlopeRotation = Quaternion.FromToRotation(Vector3.up, _groundNormal);
+            float groundAngle = CalculateGroundAngle();
 
             // handle character movement
-            // check if angle is too steep for character movement
-            float groundAngle = CalculateGroundAngle();
-            if (groundAngle < MaxGroundAngle)
+            if (_behaviour == Behaviour.Walk && groundAngle < MaxGroundAngle)
             {
                 if (_walkDirection == WalkDirection.Right)
                 {
@@ -194,26 +193,26 @@ public class Plant : MonoBehaviour
                     _walkSpeed = Mathf.MoveTowards(_walkSpeed, -MaxWalkSpeed, WalkAcceleration * Time.deltaTime);
                 }
 
-                _movementVelocity = new Vector3(_walkSpeed, 0, 0);
-
-                // adjust movement for slope
-                _movementVelocity = toSlopeRotation * _movementVelocity;
-
                 _animator.SetBool("IsRunning", true);
             }
+            else
+            {
+                _walkSpeed = Mathf.MoveTowards(_walkSpeed, 0, WalkAcceleration * Time.deltaTime);
+                _animator.SetBool("IsRunning", false);
+            }
+
+            _movementVelocity = new Vector3(_walkSpeed, 0, 0);
+
+            // adjust movement for slope
+            _movementVelocity = toSlopeRotation * _movementVelocity;
 
             // handle slide movement
             float slopeSignedAngle = Vector3.SignedAngle(_groundNormal, Vector3.up, Vector3.forward);
             Vector3 slopeMovement = new Vector3(slopeSignedAngle, 0, 0);
             _movementVelocity += (toSlopeRotation * slopeMovement) * SlideSpeed;
 
-            // move
+            // apply movement
             transform.position += _movementVelocity * Time.deltaTime;
-        }
-        else
-        {
-            _animator.SetBool("IsRunning", false);
-            _walkSpeed = Mathf.MoveTowards(_walkSpeed, 0, WalkAcceleration * Time.deltaTime);
         }
 
         if (transform.position.y < DeathHeight)
