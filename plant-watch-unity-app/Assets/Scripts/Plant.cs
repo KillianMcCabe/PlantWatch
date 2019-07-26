@@ -229,6 +229,11 @@ public class Plant : MonoBehaviour
 
     public void Knockback(Vector3 knockbackVelocity)
     {
+        // Y part of velocity should affect gravity
+        _currentVerticalVelocity = knockbackVelocity.y;
+        knockbackVelocity.y = 0;
+
+        // rest of velocity affects movement
         _movementVelocity = knockbackVelocity;
 
         if (_grounded)

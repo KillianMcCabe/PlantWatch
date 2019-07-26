@@ -6,7 +6,7 @@ public class Bird : MonoBehaviour
 {
     private const float LifeTime = 8f;
     private const float KnockbackStrength = 8f;
-    private const float MinKnockbackYVelocity = 0.8f;
+    private const float MinKnockbackYVelocity = 6f;
 
     private Vector3 _flyDirection;
     private float _flySpeed = 5f;
@@ -39,18 +39,20 @@ public class Bird : MonoBehaviour
             GetComponent<BoxCollider2D>().enabled = false;
 
             Vector3 knockbackDirection = (col.gameObject.transform.position - transform.position);
+            Vector3 knockbackVelocity = Vector3.zero;
             if (Vector3.Dot(-col.GetContact(0).normal, Vector3.up) > 0.9f)
             {
                 GetComponent<Rigidbody2D>().gravityScale = 1;
+                knockbackVelocity.y = MinKnockbackYVelocity;
             }
             else
             {
-                knockbackDirection.y = Mathf.Max(knockbackDirection.y, MinKnockbackYVelocity);
                 knockbackDirection.Normalize();
-                Vector3 knockbackVelocity = knockbackDirection * KnockbackStrength;
-
-                col.gameObject.GetComponent<Plant>().Knockback(knockbackVelocity);
+                knockbackVelocity = knockbackDirection * KnockbackStrength;
+                knockbackVelocity.y = Mathf.Max(knockbackDirection.y, MinKnockbackYVelocity);
             }
+
+            col.gameObject.GetComponent<Plant>().Knockback(knockbackVelocity);
         }
     }
 }
