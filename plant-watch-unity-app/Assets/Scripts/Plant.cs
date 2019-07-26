@@ -227,6 +227,18 @@ public class Plant : MonoBehaviour
         DrawDebugLines();
     }
 
+    public void Knockback(Vector3 knockbackVelocity)
+    {
+        _movementVelocity = knockbackVelocity;
+
+        if (_grounded)
+        {
+            // move plant off ground
+            transform.position += Vector3.up * 0.2f;
+            _grounded = false;
+        }
+    }
+
     private bool ScreenWasTapped()
     {
 #if UNITY_EDITOR
