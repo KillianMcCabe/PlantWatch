@@ -42,7 +42,16 @@ public class Plant : MonoBehaviour
     }
 
     [SerializeField]
+    private ShakeTransform _shakeTransform = null;
+
+    [SerializeField]
     private Animator _animator = null;
+
+    [SerializeField]
+    private ShakeTransformEventData _knockBackShakeEvent = null;
+
+    [SerializeField]
+    private ShakeTransformEventData _deathShakeEvent = null;
 
     // private fields
     private Vector3 _slideVelocity;
@@ -217,10 +226,14 @@ public class Plant : MonoBehaviour
 
         if (transform.position.y < DeathHeight)
         {
+            _shakeTransform.AddShakeEvent(_deathShakeEvent);
+
             if (OnDeath != null)
             {
                 OnDeath.Invoke();
             }
+
+            Destroy(gameObject);
         }
 
         DrawDebugLines();
@@ -228,6 +241,8 @@ public class Plant : MonoBehaviour
 
     public void Knockback(Vector3 knockbackVelocity)
     {
+        _shakeTransform.AddShakeEvent(_knockBackShakeEvent);
+
         // Y part of velocity should affect gravity
         _currentVerticalVelocity = knockbackVelocity.y;
         knockbackVelocity.y = 0;

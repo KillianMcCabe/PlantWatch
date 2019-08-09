@@ -657,7 +657,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd21e60e540f564ca42ae81f4ced944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shakeTransform: {fileID: 0}
   _animator: {fileID: 7908384081033657118}
+  _knockBackShakeEvent: {fileID: 11400000, guid: 45a0eda9e36d90a40ac9cd7a1d57cab8,
+    type: 2}
+  _deathShakeEvent: {fileID: 11400000, guid: ca539d148f38c3c40913e193e0545170, type: 2}
 --- !u!1 &3895731211417571227
 GameObject:
   m_ObjectHideFlags: 0

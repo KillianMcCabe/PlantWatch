@@ -613,15 +613,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 734048830}
   - {fileID: 596184638}
   - {fileID: 2102206164}
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 1826520495}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &557839449
 GameObject:
@@ -1676,6 +1676,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1826520493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1826520495}
+  - component: {fileID: 1826520494}
+  m_Layer: 0
+  m_Name: CameraParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1826520494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826520493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c52732485151f48bbfdecbce273537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1826520495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826520493}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 519420032}
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2102206160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1949,6 +1993,17 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.9528302
       objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _knockBackShakeEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 45a0eda9e36d90a40ac9cd7a1d57cab8,
+        type: 2}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _shakeTransform
+      value: 
+      objectReference: {fileID: 1826520494}
     m_RemovedComponents:
     - {fileID: 3895731211280857877, guid: cf7a693dd8e8cdd449e1d3bc74bdc235, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cf7a693dd8e8cdd449e1d3bc74bdc235, type: 3}
