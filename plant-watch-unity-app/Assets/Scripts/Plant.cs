@@ -30,7 +30,6 @@ public class Plant : MonoBehaviour
     // movement consts
     private const float WalkAcceleration = 2.6f;
     private const float MaxWalkSpeed = 2.5f;
-    private const float JumpSpeed = 12f;
     private const float GravityAccel = 18f;
     private const float MaxFallSpeed = 10f;
     private const float SlideSpeed = 0.25f;
@@ -74,6 +73,14 @@ public class Plant : MonoBehaviour
     private RaycastHit2D hit;
 
     private bool _debug = true;
+
+    private bool _isJumping = false;
+    private float _jumpTime = 0f;
+    public AnimationCurve jumpStrengthOverTime = new AnimationCurve(
+        new Keyframe(0.0f, 1.0f),
+        new Keyframe(0.5f, 0.2f, Mathf.Deg2Rad * -70.0f, Mathf.Deg2Rad * -70.0f),
+        new Keyframe(1.0f, 0.0f)
+    );
 
     // Start is called before the first frame update
     void Start()
@@ -142,35 +149,24 @@ public class Plant : MonoBehaviour
 
         if (_grounded && ScreenWasTapped())
         {
-            // jump
-            _currentVerticalVelocity = JumpSpeed;
+            // start jump
+            _isJumping = true;
+            _jumpTime = 0;
             _grounded = false;
         }
-        else
+
+        float jumpCurveDuration = 0.5f;
+        if (_isJumping && TapIsHeld() && _jumpTime < jumpCurveDuration)
         {
-            // ground check
-            hit = Physics2D.Raycast(transform.position, -Vector3.up, _colliderHalfHeight + (_grounded ? GroundedColliderHeightPadding : ColliderHeightPadding), -_groundLayerMask);
-            if (hit.collider != null)
-            {
-                if (Vector3.Distance(transform.position, hit.point) < _colliderHalfHeight)
-                {
-                    const float GroundPushSpeed = 20;
-                    transform.position = Vector3.Lerp(transform.position, hit.point + new Vector2(0, _colliderHalfHeight), GroundPushSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    transform.position = hit.point + new Vector2(0, _colliderHalfHeight);
-                }
+            // handle jumping effect
+            float jump_t = 1.0f - ((jumpCurveDuration - _jumpTime) / jumpCurveDuration);
+            float jumpStrength = jumpStrengthOverTime.Evaluate(jump_t);
 
-                _grounded = true;
-                _currentVerticalVelocity = 0f;
+            // jump
+            Debug.Log(_jumpTime + ": " + jump_t + " jumpStrength: " + jumpStrength);
+            _currentVerticalVelocity += jumpStrength;
 
-                _groundNormal = hit.normal;
-            }
-            else
-            {
-                _grounded = false;
-            }
+            _jumpTime += Time.deltaTime;
         }
 
         if (!_grounded)
@@ -223,6 +219,34 @@ public class Plant : MonoBehaviour
 
             // apply movement
             transform.position += _movementVelocity * Time.deltaTime;
+        }
+
+        // ground check
+        if (_currentVerticalVelocity <= 0)
+        {
+            hit = Physics2D.Raycast(transform.position, -Vector3.up, _colliderHalfHeight + (_grounded ? GroundedColliderHeightPadding : ColliderHeightPadding), -_groundLayerMask);
+            if (hit.collider != null)
+            {
+                if (Vector3.Distance(transform.position, hit.point) < _colliderHalfHeight)
+                {
+                    const float GroundPushSpeed = 20;
+                    transform.position = Vector3.Lerp(transform.position, hit.point + new Vector2(0, _colliderHalfHeight), GroundPushSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position = hit.point + new Vector2(0, _colliderHalfHeight);
+                }
+
+                _grounded = true;
+                _isJumping = false;
+                _currentVerticalVelocity = 0f;
+
+                _groundNormal = hit.normal;
+            }
+            else
+            {
+                _grounded = false;
+            }
         }
 
         if (transform.position.y < DeathHeight)

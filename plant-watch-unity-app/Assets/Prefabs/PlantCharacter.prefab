@@ -662,6 +662,72 @@ MonoBehaviour:
   _knockBackShakeEvent: {fileID: 11400000, guid: 45a0eda9e36d90a40ac9cd7a1d57cab8,
     type: 2}
   _deathShakeEvent: {fileID: 11400000, guid: ca539d148f38c3c40913e193e0545170, type: 2}
+  jumpStrengthOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.2
+      inSlope: -1.137779
+      outSlope: -1.137779
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.18333328
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ajumpStrengthOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.2
+      inSlope: -1.070869
+      outSlope: -1.070869
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20000005
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3895731211417571227
 GameObject:
   m_ObjectHideFlags: 0
