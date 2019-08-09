@@ -60,6 +60,7 @@ public class ShakeTransform : MonoBehaviour
             float agePercent = 1.0f - (timeRemaining / duration);
             noise *= data.blendOverLifetime.Evaluate(agePercent);
         }
+
         public bool IsAlive()
         {
             return timeRemaining > 0.0f;
@@ -91,8 +92,9 @@ public class ShakeTransform : MonoBehaviour
 
         for (int i = shakeEvents.Count - 1; i != -1; i--)
         {
-            ShakeEvent se = shakeEvents[i]; se.Update();
-            
+            ShakeEvent se = shakeEvents[i];
+            se.Update();
+
             if (se.shakeType == ShakeTransformEventData.ShakeType.Position)
             {
                 positionOffset += se.noise;

@@ -68,6 +68,7 @@ public class Plant : MonoBehaviour
     private Behaviour _behaviour = Behaviour.Idle;
     private WalkDirection _walkDirection;
     private float _idleTime = 0;
+    private int _prevTouchCount = 0;
 
     private BoxCollider2D _boxCollider;
     private RaycastHit2D hit;
@@ -260,23 +261,43 @@ public class Plant : MonoBehaviour
 
     private bool ScreenWasTapped()
     {
+        bool sreenTouched = false;
 #if UNITY_EDITOR
         // check if editor game window was clicked
         if (Input.GetMouseButtonDown(0))
         {
-            return true;
+            sreenTouched = true;
         }
 #else
         // check if mobile screen was tapped
+        // player must release touch before next touch is counted
+        if (_prevTouchCount == 0 && Input.touchCount > 0)
+        {
+            sreenTouched = true;
+        }
+        _prevTouchCount = Input.touchCount;
+#endif
+        return sreenTouched;
+    }
+
+    private bool TapIsHeld()
+    {
+        bool sreenTouched = false;
+#if UNITY_EDITOR
+        // check if editor game window was clicked
+        if (Input.GetMouseButton(0))
+        {
+            sreenTouched = true;
+        }
+#else
+        // check if mobile screen was tapped
+        // player must release touch before next touch is counted
         if (Input.touchCount > 0)
         {
-            Touch touch = Input.GetTouch(0);
-            Debug.Log("Touch Position : " + touch.position);
-
-            return true;
+            sreenTouched = true;
         }
 #endif
-        return false;
+        return sreenTouched;
     }
 
     private float CalculateGroundAngle()
