@@ -40,6 +40,19 @@ public class Plant : MonoBehaviour
         private set;
     }
 
+    public float Growth
+    {
+        get
+        {
+            return _growth;
+        }
+        set
+        {
+            _growth = value;
+            _plantTransform.localScale = new Vector3(_growth, _growth, _growth);
+        }
+    }
+
     [SerializeField]
     private ShakeTransform _shakeTransform = null;
 
@@ -51,6 +64,9 @@ public class Plant : MonoBehaviour
 
     [SerializeField]
     private ShakeTransformEventData _deathShakeEvent = null;
+
+    [SerializeField]
+    private Transform _plantTransform = null;
 
     // private fields
     private Vector3 _slideVelocity;
@@ -68,6 +84,8 @@ public class Plant : MonoBehaviour
     private WalkDirection _walkDirection;
     private float _idleTime = 0;
     private int _prevTouchCount = 0;
+
+    private float _growth = 0f;
 
     private BoxCollider2D _boxCollider;
     private RaycastHit2D hit;
@@ -98,6 +116,8 @@ public class Plant : MonoBehaviour
         {
             Debug.LogError("MovementController2D requires layerMask \"Ground\"");
         }
+
+        Growth = 0;
 
         if (UnityEngine.Random.Range(0f, 100f) < 50f)
         {

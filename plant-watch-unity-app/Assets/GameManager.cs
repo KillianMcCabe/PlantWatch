@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Text _scoreText = null;
 
+    const float ScoreGoal = 100f;
+
     float scoreMultiplier = 1;
     float score = 0;
 
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
         {
             score += Time.deltaTime;
             _scoreText.text = Mathf.FloorToInt(score).ToString();
+
+            plant.Growth = score / ScoreGoal;
         }
     }
 
