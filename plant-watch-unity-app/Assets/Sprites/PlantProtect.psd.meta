@@ -20,6 +20,9 @@ TextureImporter:
     21300030: Leg_l
     21300032: Leg_R
     21300034: Cloud
+    21300036: Face_neutral
+    21300038: Face_happy
+    21300040: Face_hurt
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -242,66 +245,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Eye_l
-      rect:
-        serializedVersion: 2
-        x: 717
-        y: 898
-        width: 21
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f45f5a8b7bd5dc34dac6c27f5e05dbab
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Eye_R
-      rect:
-        serializedVersion: 2
-        x: 744
-        y: 898
-        width: 17
-        height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eba0f8774624d7045b2b0509d8317a66
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Mouth
-      rect:
-        serializedVersion: 2
-        x: 725
-        y: 879
-        width: 30
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 57e80401f1f82d9488fd3ac346646e9b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Leg_l
       rect:
         serializedVersion: 2
@@ -357,6 +300,66 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f8db6290bfd94b240b30bc228dad2d1e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_neutral
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 860
+        width: 60
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 640e3f9b96391e74b99a31238a36e829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_happy
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 860
+        width: 60
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec5cb0cf79292f3448e3d4059d2947f9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Face_hurt
+      rect:
+        serializedVersion: 2
+        x: 873
+        y: 860
+        width: 60
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8efa7d4fbbf92244b9fb5eb3ecee05a
       vertices: []
       indices: 
       edges: []

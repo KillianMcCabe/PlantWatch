@@ -68,6 +68,20 @@ public class Plant : MonoBehaviour
     [SerializeField]
     private Transform _plantTransform = null;
 
+    [SerializeField]
+    private SpriteRenderer _faceSpriteRender = null;
+
+    [Header("Sprites")]
+
+    [SerializeField]
+    private Sprite _faceSprite_Neutral = null;
+
+    [SerializeField]
+    private Sprite _faceSprite_Happy = null;
+
+    [SerializeField]
+    private Sprite _faceSprite_Hurt = null;
+
     // private fields
     private Vector3 _slideVelocity;
     private float _currentVerticalVelocity = 0f;
@@ -127,6 +141,8 @@ public class Plant : MonoBehaviour
         {
             _walkDirection = WalkDirection.Right;
         }
+
+        _faceSpriteRender.sprite = _faceSprite_Neutral;
     }
 
     private void FixedUpdate()
@@ -183,7 +199,6 @@ public class Plant : MonoBehaviour
             float jumpStrength = jumpStrengthOverTime.Evaluate(jump_t);
 
             // jump
-            Debug.Log(_jumpTime + ": " + jump_t + " jumpStrength: " + jumpStrength);
             _currentVerticalVelocity += jumpStrength;
 
             _jumpTime += Time.deltaTime;
@@ -261,6 +276,16 @@ public class Plant : MonoBehaviour
                 _isJumping = false;
                 _currentVerticalVelocity = 0f;
 
+                // pot shouldn't look hurt anymore when he lands on the ground
+                if (IsWet)
+                {
+                    _faceSpriteRender.sprite = _faceSprite_Happy;
+                }
+                else
+                {
+                    _faceSpriteRender.sprite = _faceSprite_Neutral;
+                }
+
                 _groundNormal = hit.normal;
             }
             else
@@ -286,6 +311,8 @@ public class Plant : MonoBehaviour
 
     public void Knockback(Vector3 knockbackVelocity)
     {
+        _faceSpriteRender.sprite = _faceSprite_Hurt;
+
         _shakeTransform.AddShakeEvent(_knockBackShakeEvent);
 
         // Y part of velocity should affect gravity
@@ -378,6 +405,10 @@ public class Plant : MonoBehaviour
         if (col.tag == "RainCloud")
         {
             IsWet = true;
+            if (_faceSpriteRender.sprite != _faceSprite_Hurt)
+            {
+                _faceSpriteRender.sprite = _faceSprite_Happy;
+            }
         }
     }
 
@@ -386,6 +417,10 @@ public class Plant : MonoBehaviour
         if (col.tag == "RainCloud")
         {
             IsWet = false;
+            if (_faceSpriteRender.sprite != _faceSprite_Hurt)
+            {
+                _faceSpriteRender.sprite = _faceSprite_Neutral;
+            }
         }
     }
 }
