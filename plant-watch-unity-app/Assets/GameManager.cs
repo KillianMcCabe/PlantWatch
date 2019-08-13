@@ -10,10 +10,13 @@ public class GameManager : MonoBehaviour
     GameObject _restartWindow = null;
 
     [SerializeField]
-    Plant plant = null;
+    Plant _plant = null;
 
     [SerializeField]
     Text _scoreText = null;
+
+    [SerializeField]
+    GrowthBar _growthBar = null;
 
     const float ScoreGoal = 100f;
 
@@ -22,17 +25,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        plant.OnDeath += HandlePlantDeath;
+        _plant.OnDeath += HandlePlantDeath;
+
+        _growthBar.FillAmount = 0;
     }
 
     void Update()
     {
-        if (plant.IsWet)
+        _growthBar.IsGrowing = _plant.IsWet;
+        if (_plant.IsWet)
         {
             score += Time.deltaTime;
             _scoreText.text = Mathf.FloorToInt(score).ToString();
 
-            plant.Growth = score / ScoreGoal;
+            _plant.Growth = score / ScoreGoal;
+            _growthBar.FillAmount = _plant.Growth;
         }
     }
 

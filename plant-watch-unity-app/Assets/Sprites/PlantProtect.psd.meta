@@ -23,6 +23,9 @@ TextureImporter:
     21300036: Face_neutral
     21300038: Face_happy
     21300040: Face_hurt
+    21300042: Growth_progress_1
+    21300044: Growth_progress_2
+    21300046: Progress_bar
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -360,6 +363,66 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c8efa7d4fbbf92244b9fb5eb3ecee05a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Growth_progress_1
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 126
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 116166ebd69cc6e4a95c66436ce29895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Growth_progress_2
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 135
+        width: 256
+        height: 290
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d20a474c75ed23a4290a8f8e62f57835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Progress_bar
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 572
+        width: 600
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e0255ce694d32f4f8f94c73a18d9008
       vertices: []
       indices: 
       edges: []
