@@ -18,16 +18,44 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GrowthBar _growthBar = null;
 
+    [SerializeField]
+    BirdSpawner _birdSpawnerPrefab = null;
+
+    public static GameManager Instance;
+
+    BirdSpawner _birdSpawner = null;
+
     const float ScoreGoal = 100f;
 
     float scoreMultiplier = 1;
     float score = 0;
 
-    void Start()
+    public Vector3 PlantPosition
+    {
+        get { return _plant.Position; }
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Instance);
+        }
+    }
+
+    private void Start()
     {
         _plant.OnDeath += HandlePlantDeath;
 
         _growthBar.FillAmount = 0;
+
+        _birdSpawner = Instantiate(_birdSpawnerPrefab);
+        _birdSpawner.Target = _plant.transform;
+        _birdSpawner.IsSpawning = true;
     }
 
     void Update()
@@ -50,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlantDeath()
     {
+        _birdSpawner.IsSpawning = false;
         _restartWindow.SetActive(true);
     }
 }

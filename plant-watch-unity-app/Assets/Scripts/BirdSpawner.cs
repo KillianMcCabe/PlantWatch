@@ -5,13 +5,23 @@ using UnityEngine;
 public class BirdSpawner : MonoBehaviour
 {
     private const float HorizontalSpawnBoundsPadding = 2;
-    private const float VerticalSpawnBoundsSize = 4.5f;
+    private const float VerticalSpawnPositonVaraince = 0.8f;
 
     [System.NonSerialized]
-    public float SpawnRate = 5; // how man birds to spawn each second
+    public float SpawnRate = 8; // how many seconds between each bird spawn
 
     [SerializeField]
     private Bird _birdPrefab = null;
+
+    public bool IsSpawning
+    {
+        get; set;
+    }
+
+    public Transform Target
+    {
+        get; set;
+    }
 
     private Bounds _spawnBounds;
 
@@ -24,7 +34,7 @@ public class BirdSpawner : MonoBehaviour
     private float maxY;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Camera camera = Camera.main;
         float vertCamExtent = camera.orthographicSize;
@@ -33,7 +43,7 @@ public class BirdSpawner : MonoBehaviour
             camera.gameObject.transform.position,
             new Vector3(
                 (horzCamExtent + HorizontalSpawnBoundsPadding) * 2,
-                VerticalSpawnBoundsSize,
+                VerticalSpawnPositonVaraince * 2,
                 0
             )
         );
@@ -43,17 +53,23 @@ public class BirdSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        DrawSpawnBounds();
-
-        _timeSinceLastBirdSpawned += Time.deltaTime;
-        if (_timeSinceLastBirdSpawned > _timeTilNextBirdIsSpawned)
+        if (IsSpawning)
         {
-            SpawnBird();
+            DrawSpawnBounds();
 
-            _timeSinceLastBirdSpawned = 0;
-            _timeTilNextBirdIsSpawned = SpawnRate;
+            // Move bounds position to be inlign with current y pos of target
+            _spawnBounds.center = new Vector3(_spawnBounds.center.x, Target.position.y, _spawnBounds.center.z);
+
+            _timeSinceLastBirdSpawned += Time.deltaTime;
+            if (_timeSinceLastBirdSpawned > _timeTilNextBirdIsSpawned)
+            {
+                SpawnBird();
+
+                _timeSinceLastBirdSpawned = 0;
+                _timeTilNextBirdIsSpawned = SpawnRate;
+            }
         }
     }
 

@@ -40,6 +40,11 @@ public class Plant : MonoBehaviour
         private set;
     }
 
+    public Vector3 Position
+    {
+        get { return transform.position; }
+    }
+
     public float Growth
     {
         get
