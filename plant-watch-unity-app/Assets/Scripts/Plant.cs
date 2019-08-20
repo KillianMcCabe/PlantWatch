@@ -105,6 +105,7 @@ public class Plant : MonoBehaviour
     private int _prevTouchCount = 0;
 
     private float _growth = 0f;
+    private Vector3 _initialScale;
 
     private BoxCollider2D _boxCollider;
     private RaycastHit2D hit;
@@ -122,6 +123,8 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _initialScale = transform.localScale;
+
         _boxCollider = GetComponent<BoxCollider2D>();
         if (_boxCollider == null)
         {
@@ -179,11 +182,11 @@ public class Plant : MonoBehaviour
     {
         if (_walkSpeed > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(_initialScale.x, _initialScale.y, _initialScale.z);
         }
         else
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-_initialScale.x, _initialScale.y, _initialScale.z);
         }
 
         transform.rotation = Quaternion.identity;
