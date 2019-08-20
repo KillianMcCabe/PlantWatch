@@ -496,6 +496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1011d5da3095e6c48b2df32fee2d1c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _headDeadSprite: {fileID: 21300064, guid: 00609174cf53ed0468e7215aff92112e, type: 3}
+  _headSpriteRenderer: {fileID: 5180278184548481256}
 --- !u!61 &8131101324355215351
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -520,7 +522,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2, y: 0.6}
+  m_Size: {x: 2.2, y: 0.65}
   m_EdgeRadius: 0
 --- !u!50 &5525746083395527937
 Rigidbody2D:
@@ -536,10 +538,10 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4

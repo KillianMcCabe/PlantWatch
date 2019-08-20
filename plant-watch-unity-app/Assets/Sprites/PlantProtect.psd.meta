@@ -34,6 +34,7 @@ TextureImporter:
     21300058: PlantProtect_5
     21300060: PlantProtect_6
     21300062: PlantProtect_7
+    21300064: Bird_head_dead
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -591,6 +592,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 186dfa97fb967c24cb0e406485e937b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bird_head_dead
+      rect:
+        serializedVersion: 2
+        x: 1556
+        y: 912
+        width: 102
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e2edd86b3aeb7b40b988a4390ac60fd
       vertices: []
       indices: 
       edges: []

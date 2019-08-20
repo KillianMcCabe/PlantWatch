@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     BirdSpawner _birdSpawner = null;
 
-    const float ScoreGoal = 100f;
+    const float ScoreGoal = 60f;
 
     float scoreMultiplier = 1;
     float score = 0;
