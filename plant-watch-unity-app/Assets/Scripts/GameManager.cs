@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
     GrowthBar _growthBar = null;
 
     [SerializeField]
+    WorldTilter _worldTilter = null;
+
+    [Header("Prefabs")]
+
+    [SerializeField]
     BirdSpawner _birdSpawnerPrefab = null;
 
     public static GameManager Instance;
@@ -53,7 +58,8 @@ public class GameManager : MonoBehaviour
 
         _growthBar.FillAmount = 0;
 
-        _birdSpawner = Instantiate(_birdSpawnerPrefab);
+        _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
+        _birdSpawner.transform.localPosition = new Vector3(0, -1f, 10);
         _birdSpawner.Target = _plant.transform;
         _birdSpawner.IsSpawning = true;
     }

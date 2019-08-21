@@ -319,8 +319,6 @@ public class Plant : MonoBehaviour
 
     public void Knockback(Vector3 knockbackVelocity)
     {
-        _faceSpriteRender.sprite = _faceSprite_Hurt;
-
         _shakeTransform.AddShakeEvent(_knockBackShakeEvent);
 
         // Y part of velocity should affect gravity
@@ -336,6 +334,14 @@ public class Plant : MonoBehaviour
             transform.position += Vector3.up * 0.2f;
             _grounded = false;
         }
+    }
+
+    /// <summary>
+    /// Shows the pained-face until plant touches ground
+    /// </summary>
+    public void Hurt()
+    {
+        _faceSpriteRender.sprite = _faceSprite_Hurt;
     }
 
     private bool ScreenWasTapped()

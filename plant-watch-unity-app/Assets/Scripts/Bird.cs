@@ -18,12 +18,6 @@ public class Bird : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _headSpriteRenderer = null;
 
-    public void Init(Vector3 position, Vector3 flyDirection)
-    {
-        transform.position = position;
-        transform.right = -flyDirection;
-    }
-
     private void Update()
     {
         if (!_isDead)
@@ -60,6 +54,7 @@ public class Bird : MonoBehaviour
                 knockbackDirection.Normalize();
                 knockbackVelocity = knockbackDirection * KnockbackStrength;
                 knockbackVelocity.y = Mathf.Max(knockbackDirection.y, MinKnockbackYVelocity);
+                col.gameObject.GetComponent<Plant>().Hurt();
             }
 
             col.gameObject.GetComponent<Plant>().Knockback(knockbackVelocity);
