@@ -37,6 +37,7 @@ TextureImporter:
     21300064: Bird_head_dead
     21300066: Phone_tilt
     21300068: Phone_tap
+    21300070: CollectWaterHint
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -647,13 +648,33 @@ TextureImporter:
         width: 161
         height: 81
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 2158236de97f3214581308c779c88f29
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CollectWaterHint
+      rect:
+        serializedVersion: 2
+        x: 1368
+        y: 544
+        width: 129
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f59a096c0924fea4fa63974ff2a67613
       vertices: []
       indices: 
       edges: []

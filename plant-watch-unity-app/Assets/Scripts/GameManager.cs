@@ -71,6 +71,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _tut1_tiltToMove.SetActive(false);
+        _tut2_tapToJump.SetActive(false);
+        _tut3_collectWater.SetActive(false);
+
         _plant.OnDeath += HandlePlantDeath;
 
         _growthBar.FillAmount = 0;
@@ -126,11 +130,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         _plant.Behaviour = Plant.BehaviourType.Walk;
 
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(8f);
 
         // tap tutorial stage
         _tut1_tiltToMove.SetActive(false);
         _tut2_tapToJump.SetActive(true);
+        yield return new WaitForSeconds(4f);
         _birdSpawner.IsSpawning = true;
         _birdSpawner.SpawnBird();
 
@@ -142,6 +147,7 @@ public class GameManager : MonoBehaviour
         _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
 
         yield return new WaitForSeconds(4f);
+
         _tut3_collectWater.SetActive(false);
     }
 
