@@ -2400,7 +2400,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 207.6, y: -44}
+  m_AnchoredPosition: {x: 220, y: -44}
   m_SizeDelta: {x: 1000, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1709744022
@@ -2573,7 +2573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1909426211}
   m_Layer: 5
-  m_Name: Tutorial
+  m_Name: Tutorial Hints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2596,11 +2596,11 @@ RectTransform:
   m_Father: {fileID: 5470217}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 320}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1920635582
 GameObject:
   m_ObjectHideFlags: 0
@@ -2710,7 +2710,7 @@ RectTransform:
   m_GameObject: {fileID: 1926141129}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1709744021}
   - {fileID: 1978962613}
@@ -2719,8 +2719,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000091552734, y: 0.000030517578}
-  m_SizeDelta: {x: 415.2, y: 240}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 440, y: 240}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1926141131
 MonoBehaviour:
@@ -2847,7 +2847,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 207.6, y: -156}
+  m_AnchoredPosition: {x: 220, y: -156}
   m_SizeDelta: {x: 129, y: 136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1978962614

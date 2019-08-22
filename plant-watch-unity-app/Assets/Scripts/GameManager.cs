@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     private float _score = 0;
 
-    private bool _showTutorial = true;
+    private bool _showTutorial = true; // TODO: load from playerprefs
 
     public Vector3 PlantPosition
     {
@@ -80,8 +80,12 @@ public class GameManager : MonoBehaviour
         _growthBar.FillAmount = 0;
 
         _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
-        _birdSpawner.transform.localPosition = new Vector3(0, -1f, 10);
+        _birdSpawner.transform.localPosition = new Vector3(0, -1.2f, 10);
         _birdSpawner.Target = _plant.transform;
+
+        _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
+        _rainCloud.transform.localPosition = new Vector3(0, 2f, 10);
+        _rainCloud.gameObject.SetActive(false);
 
         if (_showTutorial)
         {
@@ -113,7 +117,10 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlantDeath()
     {
-        StopCoroutine(_tutorialCoroutine);
+        if (_tutorialCoroutine != null)
+        {
+            StopCoroutine(_tutorialCoroutine);
+        }
 
         if (_birdSpawner != null)
         {
@@ -125,6 +132,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RunTutorial()
     {
+        _growthBar.gameObject.SetActive(false);
+
         // tilt tutorial stage
         _tut1_tiltToMove.SetActive(true);
         yield return new WaitForSeconds(2f);
@@ -144,9 +153,10 @@ public class GameManager : MonoBehaviour
         // water tutorial stage
         _tut2_tapToJump.SetActive(false);
         _tut3_collectWater.SetActive(true);
-        _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
+        _rainCloud.gameObject.SetActive(true);
+        _growthBar.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
 
         _tut3_collectWater.SetActive(false);
     }
@@ -156,7 +166,6 @@ public class GameManager : MonoBehaviour
         _plant.Behaviour = Plant.BehaviourType.Walk;
 
         _birdSpawner.IsSpawning = true;
-
-        _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
+        _rainCloud.gameObject.SetActive(true);
     }
 }

@@ -120,11 +120,14 @@ public class Plant : MonoBehaviour
         new Keyframe(1.0f, 0.0f)
     );
 
+    void Awake()
+    {
+        Behaviour = BehaviourType.Idle;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Behaviour = BehaviourType.Idle;
-
         _initialScale = transform.localScale;
 
         _boxCollider = GetComponent<BoxCollider2D>();

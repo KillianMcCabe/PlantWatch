@@ -5,7 +5,7 @@ using UnityEngine;
 public class BirdSpawner : MonoBehaviour
 {
     private const float HorizontalSpawnBoundsPadding = 2;
-    private const float VerticalSpawnPositonVaraince = 0.8f;
+    private const float VerticalSpawnPositonVaraince = 0.75f;
 
     [System.NonSerialized]
     public float SpawnRate = 8; // how many seconds between each bird spawn
