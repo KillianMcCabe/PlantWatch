@@ -58,7 +58,7 @@ public class BirdSpawner : MonoBehaviour
         }
     }
 
-    private void SpawnBird()
+    public void SpawnBird()
     {
         Vector3 spawnPosition;
         Quaternion spawnRotation;

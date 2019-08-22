@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
-    enum Behaviour
+    public enum BehaviourType
     {
         Idle,
-        Sit,
         Walk
     }
 
@@ -19,6 +18,8 @@ public class Plant : MonoBehaviour
     }
 
     public Action OnDeath;
+
+    public BehaviourType Behaviour { get; set; }
 
     private const float DeathHeight = -4f; // TODO: detect if offscreen instead of using a height value
     private const float MaxGroundAngle = 25f;
@@ -93,15 +94,12 @@ public class Plant : MonoBehaviour
     private float _walkSpeed = 0;
     private Vector3 _movementVelocity = Vector3.zero; // accumulative value for walk and slide velocities that persist in-air
 
-    private bool _grounded;
     private Vector3 _groundNormal;
 
     private float _colliderHalfHeight;
 
     private LayerMask _groundLayerMask;
-    private Behaviour _behaviour = Behaviour.Idle;
     private WalkDirection _walkDirection;
-    private float _idleTime = 0;
     private int _prevTouchCount = 0;
 
     private float _growth = 0f;
@@ -110,6 +108,8 @@ public class Plant : MonoBehaviour
     private BoxCollider2D _boxCollider;
     private RaycastHit2D hit;
 
+    private bool _grounded;
+    private bool _isDead = false;
     private bool _debug = true;
 
     private bool _isJumping = false;
@@ -123,6 +123,8 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Behaviour = BehaviourType.Idle;
+
         _initialScale = transform.localScale;
 
         _boxCollider = GetComponent<BoxCollider2D>();
@@ -155,7 +157,7 @@ public class Plant : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_behaviour == Behaviour.Walk && UnityEngine.Random.Range(0f, 100f) < PercChanceOfChangingWalkDirection)
+        if (Behaviour == BehaviourType.Walk && UnityEngine.Random.Range(0f, 100f) < PercChanceOfChangingWalkDirection)
         {
             // change direction
             if (_walkDirection == WalkDirection.Right)
@@ -165,14 +167,6 @@ public class Plant : MonoBehaviour
             else
             {
                 _walkDirection = WalkDirection.Right;
-            }
-        }
-        else
-        {
-            _idleTime += Time.fixedDeltaTime;
-            if (_idleTime > 4)
-            {
-                _behaviour = Behaviour.Walk;
             }
         }
     }
@@ -231,7 +225,7 @@ public class Plant : MonoBehaviour
             float groundAngle = CalculateGroundAngle();
 
             // handle character movement
-            if (_behaviour == Behaviour.Walk && groundAngle < MaxGroundAngle)
+            if (Behaviour == BehaviourType.Walk && groundAngle < MaxGroundAngle)
             {
                 if (_walkDirection == WalkDirection.Right)
                 {
@@ -302,8 +296,10 @@ public class Plant : MonoBehaviour
             }
         }
 
-        if (transform.position.y < DeathHeight)
+        if (transform.position.y < DeathHeight && !_isDead)
         {
+            _isDead = true;
+
             _shakeTransform.AddShakeEvent(_deathShakeEvent);
 
             if (OnDeath != null)

@@ -35,6 +35,8 @@ TextureImporter:
     21300060: PlantProtect_6
     21300062: PlantProtect_7
     21300064: Bird_head_dead
+    21300066: Phone_tilt
+    21300068: Phone_tap
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -605,13 +607,53 @@ TextureImporter:
         width: 102
         height: 84
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 2e2edd86b3aeb7b40b988a4390ac60fd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phone_tilt
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 551
+        width: 224
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e367b191f3dbbf440947deba7a864213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phone_tap
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 575
+        width: 161
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2158236de97f3214581308c779c88f29
       vertices: []
       indices: 
       edges: []
