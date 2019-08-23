@@ -423,9 +423,13 @@ public class Plant : MonoBehaviour
                 _faceSpriteRender.sprite = _faceSprite_Happy;
             }
         }
-        else if (col.tag == "Coin")
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Coin")
         {
-            col.GetComponent<Coin>().Collect();
+            other.gameObject.GetComponent<Coin>().Collect();
         }
     }
 

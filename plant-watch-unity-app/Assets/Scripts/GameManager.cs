@@ -56,8 +56,8 @@ public class GameManager : MonoBehaviour
 
     private float _score = 0;
 
-    // private bool _showTutorial = true; // TODO: load from playerprefs
-    private bool _showTutorial = false;
+    private bool _showTutorial = true; // TODO: load from playerprefs
+    // private bool _showTutorial = false;
 
     public Vector3 PlantPosition
     {
@@ -78,9 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _tut1_tiltToMove.SetActive(false);
-        _tut3_tapToJump.SetActive(false);
-        _tut4_collectWater.SetActive(false);
+        HideHints();
 
         _plant.OnDeath += HandlePlantDeath;
 
@@ -137,14 +135,23 @@ public class GameManager : MonoBehaviour
         _restartWindow.SetActive(true);
     }
 
+    private void HideHints()
+    {
+        _tut1_tiltToMove.SetActive(false);
+        _tut2_tiltToAvoidEdge.SetActive(false);
+        _tut3_tapToJump.SetActive(false);
+        _tut4_collectWater.SetActive(false);
+    }
+
     private IEnumerator TutorialGameSetupCoroutine()
     {
         _growthBar.gameObject.SetActive(false);
 
+        // === Tutorial step: slide to collect coin ===
         _tut1_tiltToMove.SetActive(true);
 
         bool collectedCoin = false;
-        Coin coin = Instantiate(_coinPrefab, new Vector3(4, 1, 0), Quaternion.identity, _worldTilter.transform);
+        Coin coin = Instantiate(_coinPrefab, new Vector3(3, 1, 0), Quaternion.identity, _worldTilter.transform);
         coin.OnCollect += delegate() {
             collectedCoin = true;
         };
@@ -155,19 +162,20 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // tilt tutorial stage
-        _tut1_tiltToMove.SetActive(false);
+        // === Tutorial step: plant walking tilt ===
+        HideHints();
         _tut2_tiltToAvoidEdge.SetActive(true);
         yield return new WaitForSeconds(2f);
         _plant.Behaviour = Plant.BehaviourType.Walk;
 
         yield return new WaitForSeconds(8f);
 
-        // tap tutorial stage
-        _tut2_tiltToAvoidEdge.SetActive(false);
+        // === Tutorial step: tap to jump over bird ===
+        HideHints();
         _tut3_tapToJump.SetActive(true);
 
-        Time.timeScale = 0;
+        // TODO: slow down time
+        Time.timeScale = 0.01f;
 
         // wait for player to tap
         bool tapped = false;
@@ -176,15 +184,18 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        // TODO: plant should walk left
+
         yield return new WaitForSeconds(4f);
         _birdSpawner.IsSpawning = true;
-        _birdSpawner.SpawnBird();
+        _birdSpawner.SpawnBird(0);
 
         yield return new WaitForSeconds(10f);
 
-        // water tutorial stage
-        _tut3_tapToJump.SetActive(false);
+        // === Tutorial step: collect water ===
+        HideHints();
         _tut4_collectWater.SetActive(true);
+
         _rainCloud.gameObject.SetActive(true);
         _growthBar.gameObject.SetActive(true);
 

@@ -32,8 +32,8 @@ TextureImporter:
     21300054: Bird_tail
     21300056: Bird_body
     21300058: PlantProtect_5
-    21300060: PlantProtect_6
-    21300062: PlantProtect_7
+    21300060: Progress_bar_end
+    21300062: Progress_bar_start
     21300064: Bird_head_dead
     21300066: Phone_tilt
     21300068: Phone_tap
@@ -46,6 +46,9 @@ TextureImporter:
     21300082: Coin3
     21300084: Coin4
     21300086: Coin5
+    21300088: PlantProtect_0
+    21300090: Dialogue_arrow
+    21300092: Dialogue_background
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -388,53 +391,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Growth_progress_1
-      rect:
-        serializedVersion: 2
-        x: 588
-        y: 126
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 116166ebd69cc6e4a95c66436ce29895
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Growth_progress_2
-      rect:
-        serializedVersion: 2
-        x: 888
-        y: 135
-        width: 256
-        height: 290
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d20a474c75ed23a4290a8f8e62f57835
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Progress_bar
       rect:
         serializedVersion: 2
-        x: 13
-        y: 572
-        width: 600
-        height: 100
+        x: 0
+        y: 640
+        width: 640
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -551,10 +514,10 @@ TextureImporter:
       name: PlantProtect_5
       rect:
         serializedVersion: 2
-        x: 13
-        y: 437
-        width: 600
-        height: 100
+        x: 0
+        y: 512
+        width: 640
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -568,13 +531,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlantProtect_6
+      name: Progress_bar_end
       rect:
         serializedVersion: 2
-        x: 141
-        y: 175
-        width: 89
-        height: 44
+        x: 384
+        y: 384
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -588,13 +551,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlantProtect_7
+      name: Progress_bar_start
       rect:
         serializedVersion: 2
-        x: 421
-        y: 142
-        width: 84
-        height: 113
+        x: 256
+        y: 381
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -631,9 +594,9 @@ TextureImporter:
       name: Phone_tilt
       rect:
         serializedVersion: 2
-        x: 732
-        y: 551
-        width: 224
+        x: 769
+        y: 640
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -651,10 +614,10 @@ TextureImporter:
       name: Phone_tap
       rect:
         serializedVersion: 2
-        x: 1046
-        y: 575
-        width: 161
-        height: 81
+        x: 897
+        y: 640
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -671,10 +634,10 @@ TextureImporter:
       name: CollectWaterHint
       rect:
         serializedVersion: 2
-        x: 1368
-        y: 544
-        width: 129
-        height: 136
+        x: 1024
+        y: 640
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -776,13 +739,53 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 9ddd912ecf36ea141a16d5b41e1778e6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dialogue_arrow
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 128
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74d89c1a0d42f86448706302883ef36c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dialogue_background
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 256
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4250e4a833077994dab6c4da83e5d2c0
       vertices: []
       indices: 
       edges: []

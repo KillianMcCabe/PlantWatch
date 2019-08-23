@@ -50,7 +50,8 @@ public class BirdSpawner : MonoBehaviour
             _timeSinceLastBirdSpawned += Time.deltaTime;
             if (_timeSinceLastBirdSpawned > _timeTilNextBirdIsSpawned)
             {
-                SpawnBird();
+                float yOffset = Random.Range(-VerticalSpawnPositonVaraince, VerticalSpawnPositonVaraince);
+                SpawnBird(yOffset);
 
                 _timeSinceLastBirdSpawned = 0;
                 _timeTilNextBirdIsSpawned = SpawnRate;
@@ -58,12 +59,11 @@ public class BirdSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnBird()
+    public void SpawnBird(float yOffset)
     {
         Vector3 spawnPosition;
         Quaternion spawnRotation;
 
-        float yOffset = Random.Range(-VerticalSpawnPositonVaraince, VerticalSpawnPositonVaraince);
 
         if (Random.Range(0, 100) > 50)
         {
