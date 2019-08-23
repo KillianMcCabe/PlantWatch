@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RainCloud
   - Plant
+  - Coin
   layers:
   - Default
   - TransparentFX

@@ -423,6 +423,10 @@ public class Plant : MonoBehaviour
                 _faceSpriteRender.sprite = _faceSprite_Happy;
             }
         }
+        else if (col.tag == "Coin")
+        {
+            col.GetComponent<Coin>().Collect();
+        }
     }
 
     void OnTriggerExit2D(Collider2D col)

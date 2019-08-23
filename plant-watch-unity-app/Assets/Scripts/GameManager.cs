@@ -27,10 +27,13 @@ public class GameManager : MonoBehaviour
     GameObject _tut1_tiltToMove = null;
 
     [SerializeField]
-    GameObject _tut2_tapToJump = null;
+    GameObject _tut2_tiltToAvoidEdge = null;
 
     [SerializeField]
-    GameObject _tut3_collectWater = null;
+    GameObject _tut3_tapToJump = null;
+
+    [SerializeField]
+    GameObject _tut4_collectWater = null;
 
     [Header("Prefabs")]
 
@@ -40,11 +43,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     BirdSpawner _birdSpawnerPrefab = null;
 
+    [SerializeField]
+    Coin _coinPrefab = null;
+
     public static GameManager Instance;
 
     private const float ScoreGoal = 60f;
 
-    private Coroutine _tutorialCoroutine = null;
+    private Coroutine _setupCoroutine = null;
     private BirdSpawner _birdSpawner = null;
     private RainCloud _rainCloud = null;
 
@@ -73,28 +79,28 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _tut1_tiltToMove.SetActive(false);
-        _tut2_tapToJump.SetActive(false);
-        _tut3_collectWater.SetActive(false);
+        _tut3_tapToJump.SetActive(false);
+        _tut4_collectWater.SetActive(false);
 
         _plant.OnDeath += HandlePlantDeath;
 
         _growthBar.FillAmount = 0;
 
         _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
-        _birdSpawner.transform.localPosition = new Vector3(0, -1.2f, 10);
+        _birdSpawner.transform.localPosition = new Vector3(0, 1.2f, 0);
         _birdSpawner.Target = _plant.transform;
 
         _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
-        _rainCloud.transform.localPosition = new Vector3(0, 2f, 10);
+        _rainCloud.transform.localPosition = new Vector3(0, 4.5f, 0);
         _rainCloud.gameObject.SetActive(false);
 
         if (_showTutorial)
         {
-            _tutorialCoroutine = StartCoroutine(RunTutorial());
+            _setupCoroutine = StartCoroutine(TutorialGameSetupCoroutine());
         }
         else
         {
-            SkipTutorial();
+            _setupCoroutine = StartCoroutine(GameSetupCoroutine());
         }
     }
 
@@ -118,9 +124,9 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlantDeath()
     {
-        if (_tutorialCoroutine != null)
+        if (_setupCoroutine != null)
         {
-            StopCoroutine(_tutorialCoroutine);
+            StopCoroutine(_setupCoroutine);
         }
 
         if (_birdSpawner != null)
@@ -131,20 +137,45 @@ public class GameManager : MonoBehaviour
         _restartWindow.SetActive(true);
     }
 
-    private IEnumerator RunTutorial()
+    private IEnumerator TutorialGameSetupCoroutine()
     {
         _growthBar.gameObject.SetActive(false);
 
-        // tilt tutorial stage
         _tut1_tiltToMove.SetActive(true);
+
+        bool collectedCoin = false;
+        Coin coin = Instantiate(_coinPrefab, new Vector3(4, 1, 0), Quaternion.identity, _worldTilter.transform);
+        coin.OnCollect += delegate() {
+            collectedCoin = true;
+        };
+
+        // wait for player to collect coin
+        while (!collectedCoin)
+        {
+            yield return null;
+        }
+
+        // tilt tutorial stage
+        _tut1_tiltToMove.SetActive(false);
+        _tut2_tiltToAvoidEdge.SetActive(true);
         yield return new WaitForSeconds(2f);
         _plant.Behaviour = Plant.BehaviourType.Walk;
 
         yield return new WaitForSeconds(8f);
 
         // tap tutorial stage
-        _tut1_tiltToMove.SetActive(false);
-        _tut2_tapToJump.SetActive(true);
+        _tut2_tiltToAvoidEdge.SetActive(false);
+        _tut3_tapToJump.SetActive(true);
+
+        Time.timeScale = 0;
+
+        // wait for player to tap
+        bool tapped = false;
+        while (!tapped)
+        {
+            yield return null;
+        }
+
         yield return new WaitForSeconds(4f);
         _birdSpawner.IsSpawning = true;
         _birdSpawner.SpawnBird();
@@ -152,21 +183,25 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
 
         // water tutorial stage
-        _tut2_tapToJump.SetActive(false);
-        _tut3_collectWater.SetActive(true);
+        _tut3_tapToJump.SetActive(false);
+        _tut4_collectWater.SetActive(true);
         _rainCloud.gameObject.SetActive(true);
         _growthBar.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(6f);
 
-        _tut3_collectWater.SetActive(false);
+        _tut4_collectWater.SetActive(false);
     }
 
-    private void SkipTutorial()
+    private IEnumerator GameSetupCoroutine()
     {
-        _plant.Behaviour = Plant.BehaviourType.Walk;
+        yield return new WaitForSeconds(1f);
 
-        _birdSpawner.IsSpawning = true;
         _rainCloud.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+
+        _plant.Behaviour = Plant.BehaviourType.Walk;
+        _birdSpawner.IsSpawning = true;
     }
 }
