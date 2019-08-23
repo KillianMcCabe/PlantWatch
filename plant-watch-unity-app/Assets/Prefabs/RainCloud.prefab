@@ -3675,7 +3675,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 0.8
+    radiusScale: 0.7
     collidesWith:
       serializedVersion: 2
       m_Bits: 272
@@ -4806,7 +4806,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -7}
+  m_Offset: {x: 0, y: -4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4817,7 +4817,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 12}
+  m_Size: {x: 3.5, y: 6}
   m_EdgeRadius: 0
 --- !u!50 &4672156494471497681
 Rigidbody2D:

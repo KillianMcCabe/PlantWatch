@@ -50,7 +50,8 @@ public class GameManager : MonoBehaviour
 
     private float _score = 0;
 
-    private bool _showTutorial = true; // TODO: load from playerprefs
+    // private bool _showTutorial = true; // TODO: load from playerprefs
+    private bool _showTutorial = false;
 
     public Vector3 PlantPosition
     {
