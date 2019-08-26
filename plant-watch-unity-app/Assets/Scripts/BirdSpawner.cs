@@ -59,11 +59,10 @@ public class BirdSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnBird(float yOffset)
+    public Bird SpawnBird(float yOffset)
     {
         Vector3 spawnPosition;
         Quaternion spawnRotation;
-
 
         if (Random.Range(0, 100) > 50)
         {
@@ -79,6 +78,7 @@ public class BirdSpawner : MonoBehaviour
         }
 
         Bird bird = Instantiate(_birdPrefab, spawnPosition, spawnRotation, transform);
+        return bird;
     }
 
     private void DrawSpawnBounds()

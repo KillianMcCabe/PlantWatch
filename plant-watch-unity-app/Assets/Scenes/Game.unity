@@ -750,7 +750,7 @@ GameObject:
   - component: {fileID: 376371910}
   - component: {fileID: 376371909}
   m_Layer: 5
-  m_Name: Tut 2
+  m_Name: Tut 3 - plant walking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -771,7 +771,7 @@ RectTransform:
   - {fileID: 1401234536}
   - {fileID: 1072413256}
   m_Father: {fileID: 1909426211}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1214,7 +1214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 761696278}
   m_Layer: 5
-  m_Name: Tut 1 Anchor
+  m_Name: Tut 1 - pick up coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2135,10 +2135,10 @@ RectTransform:
   m_Father: {fileID: 1300878072}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 410, y: -63}
+  m_SizeDelta: {x: 780, y: 86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1165199840
 MonoBehaviour:
@@ -2173,7 +2173,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <b>Tap</b> to jump -- a longer tap will jump higher
+  m_Text: '<b>Tap</b> to jump over the bird
+
+    (a longer tap will jump higher)'
 --- !u!222 &1165199841
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2386,12 +2388,12 @@ GameObject:
   - component: {fileID: 1300878077}
   - component: {fileID: 1300878076}
   m_Layer: 5
-  m_Name: Tut 3
+  m_Name: Tut 2 - jump over bird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1300878072
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2406,12 +2408,12 @@ RectTransform:
   - {fileID: 1165199839}
   - {fileID: 1910555564}
   m_Father: {fileID: 1909426211}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 220}
-  m_SizeDelta: {x: 820, y: 201}
+  m_SizeDelta: {x: 820, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1300878073
 MonoBehaviour:
@@ -2519,7 +2521,7 @@ GameObject:
   - component: {fileID: 1353880686}
   - component: {fileID: 1353880685}
   m_Layer: 5
-  m_Name: Tut 1
+  m_Name: Hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3164,8 +3166,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 761696278}
-  - {fileID: 376371905}
   - {fileID: 1300878072}
+  - {fileID: 376371905}
   - {fileID: 1926141130}
   - {fileID: 1037027675}
   m_Father: {fileID: 5470217}
@@ -3208,10 +3210,10 @@ RectTransform:
   m_Father: {fileID: 1300878072}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 410, y: -158}
+  m_SizeDelta: {x: 780, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1910555565
 MonoBehaviour:
@@ -3329,7 +3331,7 @@ GameObject:
   - component: {fileID: 1926141135}
   - component: {fileID: 1926141134}
   m_Layer: 5
-  m_Name: Tut 4
+  m_Name: Tut 4 - collect rain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

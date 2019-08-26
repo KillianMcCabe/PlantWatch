@@ -56,8 +56,7 @@ public class GameManager : MonoBehaviour
 
     private float _score = 0;
 
-    private bool _showTutorial = true; // TODO: load from playerprefs
-    // private bool _showTutorial = false;
+    private bool _showTutorial = false; // TODO: load from playerprefs
 
     public Vector3 PlantPosition
     {
@@ -148,6 +147,7 @@ public class GameManager : MonoBehaviour
         _growthBar.gameObject.SetActive(false);
 
         // === Tutorial step: slide to collect coin ===
+
         _tut1_tiltToMove.SetActive(true);
 
         bool collectedCoin = false;
@@ -162,57 +162,95 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        // === Tutorial step: plant walking tilt ===
-        HideHints();
-        _tut2_tiltToAvoidEdge.SetActive(true);
         yield return new WaitForSeconds(2f);
-        _plant.Behaviour = Plant.BehaviourType.Walk;
-
-        yield return new WaitForSeconds(8f);
 
         // === Tutorial step: tap to jump over bird ===
+
         HideHints();
+
+        // spawn bird
+        Bird bird = _birdSpawner.SpawnBird(-0.5f);
+
+        // show hint
         _tut3_tapToJump.SetActive(true);
 
-        // TODO: slow down time
+        // wait for bird to approach plant
+        while (Vector3.Distance(bird.transform.position, _plant.transform.position) > 4)
+        {
+            yield return null;
+        }
+
+        // slow down time
+        while (Time.timeScale > 0.01f)
+        {
+            Time.timeScale -= Time.unscaledDeltaTime;
+            yield return null;
+        }
         Time.timeScale = 0.01f;
 
-        // wait for player to tap
-        bool tapped = false;
-        while (!tapped)
+        // wait for player to jump over bird
+        while (!GameInput.ScreenWasTapped())
+        {
+            yield return null;
+        }
+
+        // return to normal time
+        Time.timeScale = 1;
+
+        // TODO: if player fails, allow them to try again
+
+        HideHints();
+
+        yield return new WaitForSeconds(10f);
+
+        // === Tutorial step: plant walking tilt ===
+        _tut2_tiltToAvoidEdge.SetActive(true);
+
+        // wait for player to close hint
+        while (!GameInput.ScreenWasTapped())
         {
             yield return null;
         }
 
         // TODO: plant should walk left
+        _plant.Behaviour = Plant.BehaviourType.Walk;
 
-        yield return new WaitForSeconds(4f);
-        _birdSpawner.IsSpawning = true;
-        _birdSpawner.SpawnBird(0);
-
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(8f);
 
         // === Tutorial step: collect water ===
+
         HideHints();
         _tut4_collectWater.SetActive(true);
 
         _rainCloud.gameObject.SetActive(true);
         _growthBar.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(6f);
+        // slow down time
+        while (Time.timeScale > 0.01f)
+        {
+            Time.timeScale -= Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = 0.01f;
+
+        // wait for player to tap
+        while (!GameInput.ScreenWasTapped())
+        {
+            yield return null;
+        }
 
         _tut4_collectWater.SetActive(false);
+
+        _birdSpawner.IsSpawning = true;
     }
 
     private IEnumerator GameSetupCoroutine()
     {
-        yield return new WaitForSeconds(1f);
-
         _rainCloud.gameObject.SetActive(true);
+        _birdSpawner.IsSpawning = true;
 
         yield return new WaitForSeconds(4f);
 
         _plant.Behaviour = Plant.BehaviourType.Walk;
-        _birdSpawner.IsSpawning = true;
     }
 }

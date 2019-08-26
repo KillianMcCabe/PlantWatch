@@ -25,6 +25,9 @@ public class Plant : MonoBehaviour
     private const float MaxGroundAngle = 25f;
     private const float PercChanceOfChangingWalkDirection = 0.5f;
 
+    private const float jumpCurveDuration = 0.5f;
+    private const float minJumpDuration = 0.125f;
+
     private const float ColliderHeightPadding = 0.08f;
     private const float GroundedColliderHeightPadding = 0.5f; // more padding will cause controller to stick to moving ground
 
@@ -100,7 +103,6 @@ public class Plant : MonoBehaviour
 
     private LayerMask _groundLayerMask;
     private WalkDirection _walkDirection;
-    private int _prevTouchCount = 0;
 
     private float _growth = 0f;
     private Vector3 _initialScale;
@@ -188,7 +190,7 @@ public class Plant : MonoBehaviour
 
         transform.rotation = Quaternion.identity;
 
-        if (_grounded && ScreenWasTapped())
+        if (_grounded && GameInput.ScreenWasTapped())
         {
             // start jump
             _isJumping = true;
@@ -196,8 +198,7 @@ public class Plant : MonoBehaviour
             _grounded = false;
         }
 
-        float jumpCurveDuration = 0.5f;
-        if (_isJumping && TapIsHeld() && _jumpTime < jumpCurveDuration)
+        if (_isJumping && (GameInput.TapIsHeld() || _jumpTime < minJumpDuration) && _jumpTime < jumpCurveDuration)
         {
             // handle jumping effect
             float jump_t = 1.0f - ((jumpCurveDuration - _jumpTime) / jumpCurveDuration);
@@ -341,47 +342,6 @@ public class Plant : MonoBehaviour
     public void Hurt()
     {
         _faceSpriteRender.sprite = _faceSprite_Hurt;
-    }
-
-    private bool ScreenWasTapped()
-    {
-        bool sreenTouched = false;
-#if UNITY_EDITOR
-        // check if editor game window was clicked
-        if (Input.GetMouseButtonDown(0))
-        {
-            sreenTouched = true;
-        }
-#else
-        // check if mobile screen was tapped
-        // player must release touch before next touch is counted
-        if (_prevTouchCount == 0 && Input.touchCount > 0)
-        {
-            sreenTouched = true;
-        }
-        _prevTouchCount = Input.touchCount;
-#endif
-        return sreenTouched;
-    }
-
-    private bool TapIsHeld()
-    {
-        bool sreenTouched = false;
-#if UNITY_EDITOR
-        // check if editor game window was clicked
-        if (Input.GetMouseButton(0))
-        {
-            sreenTouched = true;
-        }
-#else
-        // check if mobile screen was tapped
-        // player must release touch before next touch is counted
-        if (Input.touchCount > 0)
-        {
-            sreenTouched = true;
-        }
-#endif
-        return sreenTouched;
     }
 
     private float CalculateGroundAngle()
