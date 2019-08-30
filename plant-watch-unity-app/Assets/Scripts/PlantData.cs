@@ -5,12 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Plant Data", menuName = "Custom/Plant Data", order = 1)]
 public class PlantData : ScriptableObject
 {
-    public string PlantName = null;
-    public Sprite PlantSprite = null;
+    public string Name = null;
+    public Sprite Sprite = null;
 
-    public void Init(string plantName, Sprite plantSprite)
+    public void Init(string name, Sprite sprite)
     {
-        this.PlantName = plantName;
-        this.PlantSprite = plantSprite;
+        this.Name = name;
+        this.Sprite = sprite;
     }
 }
