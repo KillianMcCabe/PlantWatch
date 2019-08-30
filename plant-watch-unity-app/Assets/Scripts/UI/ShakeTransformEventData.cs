@@ -12,7 +12,6 @@ public class ShakeTransformEventData : ScriptableObject
     }
 
     public ShakeType shakeType = ShakeType.Position;
-
     public float amplitude = 1.0f;
     public float frequency = 1.0f;
     public float duration = 1.0f;

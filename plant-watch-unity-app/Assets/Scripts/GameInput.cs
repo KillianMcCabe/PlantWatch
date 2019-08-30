@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameInput : MonoBehaviour
 {
-    private int _prevTouchCount = 0;
+    private static int _prevTouchCount = 0;
 
     public static bool ScreenWasTapped()
     {
