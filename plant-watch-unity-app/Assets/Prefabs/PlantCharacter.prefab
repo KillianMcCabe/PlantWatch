@@ -473,6 +473,7 @@ MonoBehaviour:
   _deathShakeEvent: {fileID: 11400000, guid: ca539d148f38c3c40913e193e0545170, type: 2}
   _plantTransform: {fileID: 3895731210932186777}
   _faceSpriteRender: {fileID: 1843825349996786018}
+  _plantSpriteRender: {fileID: 3895731210932186776}
   _faceSprite_Neutral: {fileID: 21300036, guid: 00609174cf53ed0468e7215aff92112e,
     type: 3}
   _faceSprite_Happy: {fileID: 21300038, guid: 00609174cf53ed0468e7215aff92112e, type: 3}

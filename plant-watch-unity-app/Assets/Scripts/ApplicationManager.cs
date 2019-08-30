@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ApplicationManager : MonoBehaviour
 {
     public static ApplicationManager Instance = null;
 
-    public PlantData _selectedPlant;
+    public PlantData SelectedPlant = null;
 
     private void Awake()
     {
@@ -23,7 +24,8 @@ public class ApplicationManager : MonoBehaviour
 
     public void SelectPlant(PlantData selectedPlant)
     {
-        _selectedPlant = selectedPlant;
+        SelectedPlant = selectedPlant;
+        SceneManager.LoadScene("Controls");
     }
 
 }

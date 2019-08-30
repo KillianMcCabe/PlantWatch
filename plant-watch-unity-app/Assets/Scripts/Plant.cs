@@ -62,6 +62,12 @@ public class Plant : MonoBehaviour
         }
     }
 
+    public Sprite PlantSprite
+    {
+        get { return _plantSpriteRender.sprite; }
+        set { _plantSpriteRender.sprite = value; }
+    }
+
     [SerializeField]
     private ShakeTransform _shakeTransform = null;
 
@@ -79,6 +85,9 @@ public class Plant : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer _faceSpriteRender = null;
+
+    [SerializeField]
+    private SpriteRenderer _plantSpriteRender = null;
 
     [Header("Sprites")]
 

@@ -13,9 +13,6 @@ public class GameManager : MonoBehaviour
     Plant _plant = null;
 
     [SerializeField]
-    Text _scoreText = null;
-
-    [SerializeField]
     GrowthBar _growthBar = null;
 
     [SerializeField]
@@ -48,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-    private const float ScoreGoal = 60f;
+    private const float ScoreGoal = 50f;
 
     private Coroutine _setupCoroutine = null;
     private BirdSpawner _birdSpawner = null;
@@ -81,6 +78,11 @@ public class GameManager : MonoBehaviour
 
         _plant.OnDeath += HandlePlantDeath;
 
+        if (ApplicationManager.Instance.SelectedPlant != null)
+        {
+            _plant.PlantSprite = ApplicationManager.Instance.SelectedPlant.Sprite;
+        }
+
         _growthBar.FillAmount = 0;
 
         _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
@@ -107,7 +109,7 @@ public class GameManager : MonoBehaviour
         if (_plant.IsWet)
         {
             _score += Time.deltaTime;
-            _scoreText.text = Mathf.FloorToInt(_score).ToString();
+            _score = Mathf.Clamp(_score, 0, ScoreGoal);
 
             _plant.Growth = _score / ScoreGoal;
             _growthBar.FillAmount = _plant.Growth;

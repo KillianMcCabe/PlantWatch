@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ChooseAPlant : MonoBehaviour
 {
     [SerializeField]
-    private PlantData[] _plantOptions;
+    private PlantData[] _plantOptions = null;
 
     [SerializeField]
     private PlantChoice _selectPrefab = null;
