@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: ef40fda1831d16547a75243ae93cbf3e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Amaranth
+  fontNames:
+  - Amaranth
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: cda462a1e48cde143b2ecf21f0c2e72e, type: 3}
+  - {fileID: 12800000, guid: 85444fd6b04118d4aa38f61c6b46a851, type: 3}
+  - {fileID: 12800000, guid: 9374235e3d437ed41ad811b216739576, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
