@@ -26,11 +26,17 @@ public class GameInput : MonoBehaviour
         // player must release touch before next touch is counted
         if (_prevTouchCount == 0 && Input.touchCount > 0)
         {
-            // Check if tapped on a UI element
-            if (!EventSystem.current.IsPointerOverGameObject())
+            foreach (Touch touch in Input.touches)
             {
-                sreenTouched = true;
+                int pointerID = touch.fingerId;
+                if (EventSystem.current.IsPointerOverGameObject(pointerID))
+                {
+                    // at least on touch is over a canvas UI
+                    return false;
+                }
             }
+
+            sreenTouched = true;
         }
         _prevTouchCount = Input.touchCount;
 #endif

@@ -188,6 +188,9 @@ public class Plant : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (GameManager.Instance.GamePaused)
+            return;
+
         if (_walkSpeed > 0)
         {
             transform.localScale = new Vector3(_initialScale.x, _initialScale.y, _initialScale.z);
@@ -201,6 +204,7 @@ public class Plant : MonoBehaviour
 
         if (_grounded && GameInput.ScreenWasTapped())
         {
+            Debug.Log("Start jump");
             // start jump
             _isJumping = true;
             _jumpTime = 0;
