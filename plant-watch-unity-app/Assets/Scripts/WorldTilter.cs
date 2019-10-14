@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WorldTilter : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,15 +14,14 @@ public class WorldTilter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Quaternion worldRotation = Quaternion.Euler(0, 0, (Quaternion.Euler(-90f, 0, 0) * Input.gyro.attitude).eulerAngles.z);
-        float angle = (180f - Quaternion.Angle(transform.rotation, worldRotation)) / 180f;
 #if !UNITY_EDITOR
-        // transform.rotation = Quaternion.RotateTowards(transform.rotation, worldRotation, angle * RotateSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(0, 0, (Quaternion.Euler(-90f, 0, 0) * Input.gyro.attitude).eulerAngles.z);
-#else
-        Vector3 rotationInput = Vector3.zero;
-        rotationInput.z += -Input.GetAxis("Horizontal") * 40f * Time.deltaTime;
-        transform.rotation = Quaternion.Euler(rotationInput) * transform.rotation;
+        float angle = (Quaternion.Euler(-90f, 0, 0) * Input.gyro.attitude).eulerAngles.z;
+        SetTilt (angle);
 #endif
+    }
+
+    public void SetTilt (float angle)
+    {
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

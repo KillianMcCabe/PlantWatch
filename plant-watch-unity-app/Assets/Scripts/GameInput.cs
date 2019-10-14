@@ -9,9 +9,10 @@ public class GameInput : MonoBehaviour
     public static bool ScreenWasTapped()
     {
         bool sreenTouched = false;
+
 #if UNITY_EDITOR
         // check if editor game window was clicked
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetButton("Jump"))
         {
             sreenTouched = true;
         }
@@ -24,15 +25,17 @@ public class GameInput : MonoBehaviour
         }
         _prevTouchCount = Input.touchCount;
 #endif
+
         return sreenTouched;
     }
 
     public static bool TapIsHeld()
     {
         bool sreenTouched = false;
+
 #if UNITY_EDITOR
         // check if editor game window was clicked
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || Input.GetButton("Jump"))
         {
             sreenTouched = true;
         }
@@ -44,6 +47,7 @@ public class GameInput : MonoBehaviour
             sreenTouched = true;
         }
 #endif
+
         return sreenTouched;
     }
 }
