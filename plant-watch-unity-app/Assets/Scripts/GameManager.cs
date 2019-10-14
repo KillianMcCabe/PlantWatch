@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     private float _score = 0;
 
     private bool _showTutorial = false; // TODO: load from playerprefs
+    private Coroutine _gameResumeCoroutine = null;
 
     public Vector3 PlantPosition
     {
@@ -79,6 +80,11 @@ public class GameManager : MonoBehaviour
         {
             _gamePaused = value;
 
+            if (_gameResumeCoroutine != null)
+            {
+                StopCoroutine(_gameResumeCoroutine);
+            }
+
             _pauseScreen.SetActive(_gamePaused);
 
             if (_gamePaused)
@@ -89,10 +95,12 @@ public class GameManager : MonoBehaviour
             else
             {
                 // Start countdown to resume
-                StartCoroutine(GameResumeCoroutine());
+                _gameResumeCoroutine = StartCoroutine(GameResumeCoroutine());
             }
         }
     }
+
+    #region MonoBehaviour
 
     private void Awake()
     {
@@ -155,6 +163,16 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            GamePaused = true;
+        }
+    }
+
+    #endregion MonoBehaviour
 
     public void Pause()
     {
