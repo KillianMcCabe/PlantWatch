@@ -5,11 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ControlsSceneManager : MonoBehaviour
 {
-    void Update()
+    public void StartGame()
     {
-        if (GameInput.ScreenWasTapped())
-        {
-            SceneManager.LoadScene("Game");
-        }
+        SceneManager.LoadScene("Game");
     }
 }
