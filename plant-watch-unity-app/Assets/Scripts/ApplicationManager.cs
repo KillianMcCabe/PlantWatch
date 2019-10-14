@@ -22,6 +22,11 @@ public class ApplicationManager : MonoBehaviour
         }
     }
 
+    public void PlayerWin()
+    {
+        SceneManager.LoadScene("Win");
+    }
+
     public void SelectPlant(PlantData selectedPlant)
     {
         SelectedPlant = selectedPlant;

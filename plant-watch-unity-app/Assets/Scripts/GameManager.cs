@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
         _plant.OnDeath += HandlePlantDeath;
 
-        if (ApplicationManager.Instance.SelectedPlant != null)
+        if (ApplicationManager.Instance?.SelectedPlant != null)
         {
             _plant.PlantSprite = ApplicationManager.Instance.SelectedPlant.Sprite;
         }
@@ -111,8 +111,14 @@ public class GameManager : MonoBehaviour
             _score += Time.deltaTime;
             _score = Mathf.Clamp(_score, 0, ScoreGoal);
 
+
             _plant.Growth = _score / ScoreGoal;
             _growthBar.FillAmount = _plant.Growth;
+
+            if (_score > ScoreGoal)
+            {
+                ApplicationManager.Instance.PlayerWin();
+            }
         }
     }
 

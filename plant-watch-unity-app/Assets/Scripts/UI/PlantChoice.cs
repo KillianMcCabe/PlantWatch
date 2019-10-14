@@ -20,7 +20,7 @@ public class PlantChoice : MonoBehaviour
         _plantImage.sprite = plantData.Sprite;
 
         button.onClick.AddListener( delegate {
-            Debug.Log("chose " + _plantData.Name);
+            Debug.Log("Plant chosen: " + _plantData.Name);
             ApplicationManager.Instance.SelectPlant(_plantData);
         });
     }
