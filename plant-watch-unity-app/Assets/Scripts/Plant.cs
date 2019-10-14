@@ -125,9 +125,11 @@ public class Plant : MonoBehaviour
 
     private bool _isJumping = false;
     private float _jumpTime = 0f;
-    public AnimationCurve jumpStrengthOverTime = new AnimationCurve(
-        new Keyframe(0.0f, 1.0f),
-        new Keyframe(0.5f, 0.2f, Mathf.Deg2Rad * -70.0f, Mathf.Deg2Rad * -70.0f),
+
+    [SerializeField]
+    private AnimationCurve _jumpStrengthOverTime = new AnimationCurve(
+        new Keyframe(0.0f, 45.0f),
+        // new Keyframe(0.5f, 20.0f, Mathf.Deg2Rad * -60.0f, Mathf.Deg2Rad * -60.0f),
         new Keyframe(1.0f, 0.0f)
     );
 
@@ -215,10 +217,10 @@ public class Plant : MonoBehaviour
         {
             // handle jumping effect
             float jump_t = 1.0f - ((jumpCurveDuration - _jumpTime) / jumpCurveDuration);
-            float jumpStrength = jumpStrengthOverTime.Evaluate(jump_t);
+            float jumpStrength = _jumpStrengthOverTime.Evaluate(jump_t);
 
             // jump
-            _currentVerticalVelocity += jumpStrength;
+            _currentVerticalVelocity += jumpStrength * Time.deltaTime;
 
             _jumpTime += Time.deltaTime;
         }

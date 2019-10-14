@@ -742,10 +742,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d056a5c8dd1705a4cbed6e750161229c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _restartWindow: {fileID: 1377351587}
   _plant: {fileID: 3895731209992338202}
-  _growthBar: {fileID: 221784093}
   _worldTilter: {fileID: 752861612}
+  _restartWindow: {fileID: 1377351587}
+  _growthBar: {fileID: 221784093}
   _pauseScreen: {fileID: 1429078158}
   _resumeTimer: {fileID: 1384451165}
   _tut1_tiltToMove: {fileID: 761696277}
@@ -6148,6 +6148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
         type: 3}
+      propertyPath: _jumpStrengthOverTimeASD2.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
       propertyPath: _knockBackShakeEvent
       value: 
       objectReference: {fileID: 11400000, guid: 45a0eda9e36d90a40ac9cd7a1d57cab8,
@@ -6251,6 +6256,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD.m_Curve.Array.data[1].inSlope
+      value: -64.20991
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD.m_Curve.Array.data[1].outSlope
+      value: -64.20991
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD.m_Curve.Array.data[1].outWeight
+      value: 0.26666665
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD2.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD2.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD2.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD2.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3033214590686869724, guid: cf7a693dd8e8cdd449e1d3bc74bdc235,
+        type: 3}
+      propertyPath: _jumpStrengthOverTimeASD2.m_Curve.Array.data[1].value
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3895731211280857877, guid: cf7a693dd8e8cdd449e1d3bc74bdc235, type: 3}
