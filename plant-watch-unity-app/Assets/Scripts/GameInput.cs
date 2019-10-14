@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameInput : MonoBehaviour
 {
@@ -14,14 +15,22 @@ public class GameInput : MonoBehaviour
         // check if editor game window was clicked
         if (Input.GetMouseButtonDown(0) || Input.GetButton("Jump"))
         {
-            sreenTouched = true;
+            // Check if the mouse was clicked over a UI element
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                sreenTouched = true;
+            }
         }
 #else
         // check if mobile screen was tapped
         // player must release touch before next touch is counted
         if (_prevTouchCount == 0 && Input.touchCount > 0)
         {
-            sreenTouched = true;
+            // Check if tapped on a UI element
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                sreenTouched = true;
+            }
         }
         _prevTouchCount = Input.touchCount;
 #endif

@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 00609174cf53ed0468e7215aff92112e
+guid: 37fea4206f3db6542be10b25b3ef179c
 TextureImporter:
   fileIDToRecycleName:
     21300000: Plant
-    21300002: Plank
+    21300002: Icons_Pause
     21300004: Plant
-    21300006: Plank
-    21300008: Plank
+    21300006: Icons_Pause
+    21300008: Icons_Pause
     21300010: Plant_1
     21300012: Plant_1
     21300014: Pot_Face
@@ -94,7 +94,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 48, y: 48, z: 48, w: 48}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -128,17 +128,39 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Plank
+      name: Icons_Pause
       rect:
         serializedVersion: 2
-        x: 100
-        y: 1889
-        width: 1312
-        height: 63
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

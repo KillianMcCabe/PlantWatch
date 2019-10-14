@@ -6,17 +6,28 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    GameObject _restartWindow = null;
+
+    [Header("Game Objects")]
 
     [SerializeField]
     Plant _plant = null;
 
     [SerializeField]
+    WorldTilter _worldTilter = null;
+
+    [Header("Canvas Objects")]
+
+    [SerializeField]
+    GameObject _restartWindow = null;
+
+    [SerializeField]
     GrowthBar _growthBar = null;
 
     [SerializeField]
-    WorldTilter _worldTilter = null;
+    GameObject _pauseScreen = null;
+
+    [SerializeField]
+    Text _resumeTimer = null;
 
     [Header("Tutorial Messages")]
 
@@ -58,6 +69,29 @@ public class GameManager : MonoBehaviour
     public Vector3 PlantPosition
     {
         get { return _plant.Position; }
+    }
+
+    private bool _gamePaused = false;
+    public bool GamePaused
+    {
+        get { return _gamePaused; }
+        set
+        {
+            _gamePaused = value;
+
+            _pauseScreen.SetActive(_gamePaused);
+
+            if (_gamePaused)
+            {
+                Time.timeScale = 0;
+                _resumeTimer.gameObject.SetActive(false);
+            }
+            else
+            {
+                // Start countdown to resume
+                StartCoroutine(GameResumeCoroutine());
+            }
+        }
     }
 
     private void Awake()
@@ -122,9 +156,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Pause()
+    {
+        GamePaused = true;
+    }
+
+    public void Resume()
+    {
+        GamePaused = false;
+    }
+
     public void Reset()
     {
         SceneManager.LoadScene("Game");
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("Main");
     }
 
     private void HandlePlantDeath()
@@ -260,5 +309,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(4f);
 
         _plant.Behaviour = Plant.BehaviourType.Walk;
+    }
+
+    private IEnumerator GameResumeCoroutine()
+    {
+        _resumeTimer.gameObject.SetActive(true);
+
+        // wait for 3 seconds
+        int count = 3;
+        while (count > 0)
+        {
+            _resumeTimer.text = count.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+            count--;
+        }
+
+        Time.timeScale = 1;
+        _resumeTimer.gameObject.SetActive(false);
     }
 }
