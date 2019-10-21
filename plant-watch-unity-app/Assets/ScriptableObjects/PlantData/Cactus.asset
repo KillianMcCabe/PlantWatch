@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57ddbee5b1c356e44a47d81ecfbb2305, type: 3}
-  m_Name: Plant3
+  m_Name: Cactus
   m_EditorClassIdentifier: 
-  Name: Plant 3
-  Sprite: {fileID: 21300010, guid: 00609174cf53ed0468e7215aff92112e, type: 3}
+  Name: Cactus
+  PlantPrefab: {fileID: 6976983468731301724, guid: cbd116bc3b9370c49864ee8608fa9118,
+    type: 3}

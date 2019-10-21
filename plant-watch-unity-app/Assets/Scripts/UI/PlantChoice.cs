@@ -17,7 +17,7 @@ public class PlantChoice : MonoBehaviour
     {
         _plantData = plantData;
 
-        _plantImage.sprite = plantData.Sprite;
+        // _plantImage.sprite = plantData.Sprite; TODO: implement new plant choice panel
 
         button.onClick.AddListener( delegate {
             Debug.Log("Plant chosen: " + _plantData.Name);

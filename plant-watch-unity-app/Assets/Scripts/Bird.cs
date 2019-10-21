@@ -54,10 +54,10 @@ public class Bird : MonoBehaviour
                 knockbackDirection.Normalize();
                 knockbackVelocity = knockbackDirection * KnockbackStrength;
                 knockbackVelocity.y = Mathf.Max(knockbackDirection.y, MinKnockbackYVelocity);
-                col.gameObject.GetComponent<Plant>().Hurt();
+                col.gameObject.GetComponent<PlantCharacter>().Hurt();
             }
 
-            col.gameObject.GetComponent<Plant>().Knockback(knockbackVelocity);
+            col.gameObject.GetComponent<PlantCharacter>().Knockback(knockbackVelocity);
         }
     }
 

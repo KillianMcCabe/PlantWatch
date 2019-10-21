@@ -6,11 +6,11 @@ using UnityEngine;
 public class PlantData : ScriptableObject
 {
     public string Name = null;
-    public Sprite Sprite = null;
+    public Plant PlantPrefab = null;
 
-    public void Init(string name, Sprite sprite)
+    public void Init(string name, Plant plantPrefab)
     {
         this.Name = name;
-        this.Sprite = sprite;
+        this.PlantPrefab = plantPrefab;
     }
 }

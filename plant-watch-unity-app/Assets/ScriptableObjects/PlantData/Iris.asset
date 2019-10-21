@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Iris
   m_EditorClassIdentifier: 
   Name: Iris
-  Sprite: {fileID: 21300076, guid: 00609174cf53ed0468e7215aff92112e, type: 3}
+  PlantPrefab: {fileID: 6976983468731301724, guid: 7a587893ef07fc548a307f8bc0e05ab3,
+    type: 3}

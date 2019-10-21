@@ -6,57 +6,52 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private const string CameraAnimatorStartGameState = "StartGame";
+    private const float ScoreGoal = 50f;
+
+    public static GameManager Instance;
 
     [Header("Game Objects")]
 
     [SerializeField]
-    Plant _plant = null;
+    private WorldTilter _worldTilter = null;
 
     [SerializeField]
-    WorldTilter _worldTilter = null;
+    private Animator _mainCameraAnimator = null;
+
+    [SerializeField]
+    private PlantCharacter _plantCharacter = null;
 
     [Header("Canvas Objects")]
 
     [SerializeField]
-    GameObject _restartWindow = null;
+    private GameObject _restartWindow = null;
 
     [SerializeField]
-    GrowthBar _growthBar = null;
+    private GrowthBar _growthBar = null;
 
     [SerializeField]
-    GameObject _pauseScreen = null;
+    private GameObject _pauseScreen = null;
 
     [SerializeField]
-    Text _resumeTimer = null;
-
-    [Header("Tutorial Messages")]
+    private Canvas _startMenuCanvas = null;
 
     [SerializeField]
-    GameObject _tut1_tiltToMove = null;
+    private Canvas _gameCanvas = null;
 
     [SerializeField]
-    GameObject _tut2_tiltToAvoidEdge = null;
-
-    [SerializeField]
-    GameObject _tut3_tapToJump = null;
-
-    [SerializeField]
-    GameObject _tut4_collectWater = null;
+    private Text _resumeTimer = null;
 
     [Header("Prefabs")]
 
     [SerializeField]
-    RainCloud _cloudPrefab = null;
+    private RainCloud _cloudPrefab = null;
 
     [SerializeField]
-    BirdSpawner _birdSpawnerPrefab = null;
+    private BirdSpawner _birdSpawnerPrefab = null;
 
     [SerializeField]
-    Coin _coinPrefab = null;
-
-    public static GameManager Instance;
-
-    private const float ScoreGoal = 50f;
+    private Coin _coinPrefab = null;
 
     private Coroutine _setupCoroutine = null;
     private BirdSpawner _birdSpawner = null;
@@ -69,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     public Vector3 PlantPosition
     {
-        get { return _plant.Position; }
+        get { return _plantCharacter.Position; }
     }
 
     private bool _gamePaused = false;
@@ -116,46 +111,31 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        HideHints();
-
-        _plant.OnDeath += HandlePlantDeath;
+        _plantCharacter.OnDeath += HandlePlantDeath;
 
         if (ApplicationManager.Instance?.SelectedPlant != null)
         {
-            _plant.PlantSprite = ApplicationManager.Instance.SelectedPlant.Sprite;
+            // _plantCharacter.PlantSprite = ApplicationManager.Instance.SelectedPlant.Sprite;
+            _plantCharacter.SetPlant(ApplicationManager.Instance.SelectedPlant);
         }
 
         _growthBar.FillAmount = 0;
 
-        _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
-        _birdSpawner.transform.localPosition = new Vector3(0, 1.2f, 0);
-        _birdSpawner.Target = _plant.transform;
-
-        _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
-        _rainCloud.transform.localPosition = new Vector3(0, 4.5f, 0);
-        _rainCloud.gameObject.SetActive(false);
-
-        if (_showTutorial)
-        {
-            _setupCoroutine = StartCoroutine(TutorialGameSetupCoroutine());
-        }
-        else
-        {
-            _setupCoroutine = StartCoroutine(GameSetupCoroutine());
-        }
+        _mainCameraAnimator.Play(CameraAnimatorStartGameState);
+        _mainCameraAnimator.speed = 0;
     }
 
     void Update()
     {
-        _growthBar.IsGrowing = _plant.IsWet;
-        if (_plant.IsWet)
+        _growthBar.IsGrowing = _plantCharacter.IsWet;
+        if (_plantCharacter.IsWet)
         {
             _score += Time.deltaTime;
             _score = Mathf.Clamp(_score, 0, ScoreGoal);
 
 
-            _plant.Growth = _score / ScoreGoal;
-            _growthBar.FillAmount = _plant.Growth;
+            _plantCharacter.Growth = _score / ScoreGoal;
+            _growthBar.FillAmount = _plantCharacter.Growth;
 
             if (_score > ScoreGoal)
             {
@@ -173,6 +153,19 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion MonoBehaviour
+
+    public void StartGame()
+    {
+        _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
+        _birdSpawner.transform.localPosition = new Vector3(0, 1.2f, 0);
+        _birdSpawner.Target = _plantCharacter.transform;
+
+        _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
+        _rainCloud.transform.localPosition = new Vector3(0, 4.5f, 0);
+        _rainCloud.gameObject.SetActive(false);
+
+        _setupCoroutine = StartCoroutine(GameSetupCoroutine());
+    }
 
     public void Pause()
     {
@@ -209,124 +202,21 @@ public class GameManager : MonoBehaviour
         _restartWindow.SetActive(true);
     }
 
-    private void HideHints()
-    {
-        _tut1_tiltToMove.SetActive(false);
-        _tut2_tiltToAvoidEdge.SetActive(false);
-        _tut3_tapToJump.SetActive(false);
-        _tut4_collectWater.SetActive(false);
-    }
-
-    private IEnumerator TutorialGameSetupCoroutine()
-    {
-        _growthBar.gameObject.SetActive(false);
-
-        // === Tutorial step: slide to collect coin ===
-
-        _tut1_tiltToMove.SetActive(true);
-
-        bool collectedCoin = false;
-        Coin coin = Instantiate(_coinPrefab, new Vector3(3, 1, 0), Quaternion.identity, _worldTilter.transform);
-        coin.OnCollect += delegate() {
-            collectedCoin = true;
-        };
-
-        // wait for player to collect coin
-        while (!collectedCoin)
-        {
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(2f);
-
-        // === Tutorial step: tap to jump over bird ===
-
-        HideHints();
-
-        // spawn bird
-        Bird bird = _birdSpawner.SpawnBird(-0.5f);
-
-        // show hint
-        _tut3_tapToJump.SetActive(true);
-
-        // wait for bird to approach plant
-        while (Vector3.Distance(bird.transform.position, _plant.transform.position) > 4)
-        {
-            yield return null;
-        }
-
-        // slow down time
-        while (Time.timeScale > 0.01f)
-        {
-            Time.timeScale -= Time.unscaledDeltaTime;
-            yield return null;
-        }
-        Time.timeScale = 0.01f;
-
-        // wait for player to jump over bird
-        while (!GameInput.ScreenWasTapped())
-        {
-            yield return null;
-        }
-
-        // return to normal time
-        Time.timeScale = 1;
-
-        // TODO: if player fails, allow them to try again
-
-        HideHints();
-
-        yield return new WaitForSeconds(10f);
-
-        // === Tutorial step: plant walking tilt ===
-        _tut2_tiltToAvoidEdge.SetActive(true);
-
-        // wait for player to close hint
-        while (!GameInput.ScreenWasTapped())
-        {
-            yield return null;
-        }
-
-        // TODO: plant should walk left
-        _plant.Behaviour = Plant.BehaviourType.Walk;
-
-        yield return new WaitForSeconds(8f);
-
-        // === Tutorial step: collect water ===
-
-        HideHints();
-        _tut4_collectWater.SetActive(true);
-
-        _rainCloud.gameObject.SetActive(true);
-        _growthBar.gameObject.SetActive(true);
-
-        // slow down time
-        while (Time.timeScale > 0.01f)
-        {
-            Time.timeScale -= Time.unscaledDeltaTime;
-            yield return null;
-        }
-        Time.timeScale = 0.01f;
-
-        // wait for player to tap
-        while (!GameInput.ScreenWasTapped())
-        {
-            yield return null;
-        }
-
-        _tut4_collectWater.SetActive(false);
-
-        _birdSpawner.IsSpawning = true;
-    }
-
     private IEnumerator GameSetupCoroutine()
     {
         _rainCloud.gameObject.SetActive(true);
         _birdSpawner.IsSpawning = true;
 
-        yield return new WaitForSeconds(4f);
+        _startMenuCanvas.gameObject.SetActive(false);
+        _gameCanvas.gameObject.SetActive(true);
 
-        _plant.Behaviour = Plant.BehaviourType.Walk;
+        // play camera animation
+        _mainCameraAnimator.Play(CameraAnimatorStartGameState);
+        _mainCameraAnimator.speed = 1;
+
+        yield return new WaitForSeconds(2f);
+
+        _plantCharacter.Behaviour = PlantCharacter.BehaviourType.Walk;
     }
 
     private IEnumerator GameResumeCoroutine()

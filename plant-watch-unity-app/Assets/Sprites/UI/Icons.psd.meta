@@ -50,6 +50,7 @@ TextureImporter:
     21300090: Dialogue_arrow
     21300092: Dialogue_background
     21300094: PlantProtect_2
+    21300096: Icons_Arrow
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -889,6 +890,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: e2a1900dada018144a91a2a3cbd53b60
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Arrow
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bb983045f3a9094a957999a07b1f1b3
       vertices: []
       indices: 
       edges: []

@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57ddbee5b1c356e44a47d81ecfbb2305, type: 3}
-  m_Name: WisteriaBonsai
+  m_Name: Agave
   m_EditorClassIdentifier: 
-  Name: Wisteria
-  Sprite: {fileID: 21300078, guid: 00609174cf53ed0468e7215aff92112e, type: 3}
+  Name: Agave
+  PlantPrefab: {fileID: 6976983468731301724, guid: d21d051d43683bd4e92c8558d01d0ad7,
+    type: 3}

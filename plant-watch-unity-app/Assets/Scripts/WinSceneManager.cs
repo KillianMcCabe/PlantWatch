@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WinSceneManager : MonoBehaviour
 {
     [SerializeField]
-    private Plant _plant = null;
+    private PlantCharacter _plantCharacter = null;
 
     [SerializeField]
     private Text _nameText = null;
@@ -16,7 +16,7 @@ public class WinSceneManager : MonoBehaviour
     {
         if (ApplicationManager.Instance?.SelectedPlant != null)
         {
-            _plant.PlantSprite = ApplicationManager.Instance.SelectedPlant.Sprite;
+            _plantCharacter.SetPlant(ApplicationManager.Instance.SelectedPlant);
             _nameText.text = ApplicationManager.Instance.SelectedPlant.Name;
         }
     }

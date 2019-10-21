@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _plantOptions:
-  - {fileID: 11400000, guid: 2217a57790431ab48b14b0def395d849, type: 2}
+  - {fileID: 11400000, guid: f1c43652812a7944894049f4b84dc8ba, type: 2}
   - {fileID: 11400000, guid: 9ba0c3fed931a9d44b549c04d7029951, type: 2}
   - {fileID: 11400000, guid: 4d3ed27aa401db14c85f10022ec7bfc1, type: 2}
   _selectPrefab: {fileID: 4666151517641619597, guid: 81f872ea7ff32484985fbcc7baf202d2,
