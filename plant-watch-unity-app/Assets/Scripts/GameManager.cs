@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    enum GameState
+    {
+        StartScreen,
+        Game,
+        EndScreen
+    }
+
     private const string CameraAnimatorStartGameState = "StartGame";
     private const float ScoreGoal = 50f;
 
@@ -42,6 +49,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text _resumeTimer = null;
 
+    [SerializeField]
+    private ShakeTransform _shakeTransform = null;
+
+    [SerializeField]
+    private ShakeTransformEventData _deathShakeEvent = null;
+
     [Header("Prefabs")]
 
     [SerializeField]
@@ -58,6 +71,8 @@ public class GameManager : MonoBehaviour
     private RainCloud _rainCloud = null;
 
     private float _score = 0;
+
+    private GameState _gameState;
 
     private bool _showTutorial = false; // TODO: load from playerprefs
     private Coroutine _gameResumeCoroutine = null;
@@ -111,7 +126,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _plantCharacter.OnDeath += HandlePlantDeath;
+        _plantCharacter.OnOffscreen += HandlePlantOffscreen;
 
         if (ApplicationManager.Instance?.SelectedPlant != null)
         {
@@ -123,6 +138,8 @@ public class GameManager : MonoBehaviour
 
         _mainCameraAnimator.Play(CameraAnimatorStartGameState);
         _mainCameraAnimator.speed = 0;
+
+        _gameState = GameState.StartScreen;
     }
 
     void Update()
@@ -156,6 +173,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        _gameState = GameState.Game;
+
         _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
         _birdSpawner.transform.localPosition = new Vector3(0, 1.2f, 0);
         _birdSpawner.Target = _plantCharacter.transform;
@@ -187,19 +206,42 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    private void HandlePlantDeath()
+    private void HandlePlantOffscreen()
     {
-        if (_setupCoroutine != null)
+        if (_gameState == GameState.StartScreen)
         {
-            StopCoroutine(_setupCoroutine);
-        }
+            // Move the plant character to other side of the screen
+            Vector2 middleRightCorner = new Vector2(1, 0.5f);
+            Vector2 edgeWorldPosition = Camera.main.ViewportToWorldPoint(middleRightCorner);
+            float cameraWidth = edgeWorldPosition.x * 2;
 
-        if (_birdSpawner != null)
+            if (_plantCharacter.transform.position.x > 0)
+            {
+                _plantCharacter.transform.position -= Camera.main.transform.right * cameraWidth;
+            }
+            else
+            {
+                _plantCharacter.transform.position += Camera.main.transform.right * cameraWidth;
+            }
+        }
+        else
         {
-            _birdSpawner.IsSpawning = false;
-        }
+            _plantCharacter.Die();
 
-        _restartWindow.SetActive(true);
+            _shakeTransform.AddShakeEvent(_deathShakeEvent);
+
+            if (_setupCoroutine != null)
+            {
+                StopCoroutine(_setupCoroutine);
+            }
+
+            if (_birdSpawner != null)
+            {
+                _birdSpawner.IsSpawning = false;
+            }
+
+            _restartWindow.SetActive(true);
+        }
     }
 
     private IEnumerator GameSetupCoroutine()

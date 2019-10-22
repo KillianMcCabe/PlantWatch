@@ -954,6 +954,8 @@ MonoBehaviour:
   _startMenuCanvas: {fileID: 629917133}
   _gameCanvas: {fileID: 2125832269}
   _resumeTimer: {fileID: 1384451165}
+  _shakeTransform: {fileID: 1826520494}
+  _deathShakeEvent: {fileID: 11400000, guid: ca539d148f38c3c40913e193e0545170, type: 2}
   _cloudPrefab: {fileID: 4672156494471497647, guid: d6c13ed8abed89040bf1d42d04af4a2a,
     type: 3}
   _birdSpawnerPrefab: {fileID: 8125484571111165648, guid: c992cfca0b43f6f4d90cca95fa94dc70,

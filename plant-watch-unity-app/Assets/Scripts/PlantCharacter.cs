@@ -17,11 +17,10 @@ public class PlantCharacter : MonoBehaviour
         Right
     }
 
-    public Action OnDeath;
+    public Action OnOffscreen;
 
     public BehaviourType Behaviour { get; set; }
 
-    private const float DeathHeight = -4f; // TODO: detect if offscreen instead of using a height value
     private const float MaxGroundAngle = 25f;
     private const float PercChanceOfChangingWalkDirection = 0.5f;
 
@@ -76,9 +75,6 @@ public class PlantCharacter : MonoBehaviour
 
     [SerializeField]
     private ShakeTransformEventData _knockBackShakeEvent = null;
-
-    [SerializeField]
-    private ShakeTransformEventData _deathShakeEvent = null;
 
     [SerializeField]
     private SpriteRenderer _faceSpriteRender = null;
@@ -313,21 +309,21 @@ public class PlantCharacter : MonoBehaviour
             }
         }
 
-        if (transform.position.y < DeathHeight && !_isDead)
+        if (!IsOnScreen() && !_isDead)
         {
-            _isDead = true;
-
-            _shakeTransform.AddShakeEvent(_deathShakeEvent);
-
-            if (OnDeath != null)
+            if (OnOffscreen != null)
             {
-                OnDeath.Invoke();
+                OnOffscreen.Invoke();
             }
-
-            Destroy(gameObject);
         }
 
         DrawDebugLines();
+    }
+
+    public void Die()
+    {
+        _isDead = true;
+        Destroy(gameObject);
     }
 
     public void SetPlant(PlantData plantData)
@@ -378,6 +374,14 @@ public class PlantCharacter : MonoBehaviour
         }
 
         return Vector3.Angle(_groundNormal, transform.up);
+    }
+
+    private bool IsOnScreen()
+    {
+        Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
+        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+
+        return onScreen;
     }
 
     private void DrawDebugLines()
