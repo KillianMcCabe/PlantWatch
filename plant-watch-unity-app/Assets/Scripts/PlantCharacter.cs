@@ -17,8 +17,6 @@ public class PlantCharacter : MonoBehaviour
         Right
     }
 
-    public Action OnOffscreen;
-
     public BehaviourType Behaviour { get; set; }
 
     private const float MaxGroundAngle = 25f;
@@ -113,13 +111,14 @@ public class PlantCharacter : MonoBehaviour
     private RaycastHit2D hit;
 
     private bool _grounded;
-    private bool _isDead = false;
     private bool _debug = true;
 
     private bool _isJumping = false;
     private float _jumpTime = 0f;
 
     private Plant _plant = null;
+
+    public bool IsDead { get; private set; } = false;
 
     [SerializeField]
     private AnimationCurve _jumpStrengthOverTime = new AnimationCurve(
@@ -309,20 +308,12 @@ public class PlantCharacter : MonoBehaviour
             }
         }
 
-        if (!IsOnScreen() && !_isDead)
-        {
-            if (OnOffscreen != null)
-            {
-                OnOffscreen.Invoke();
-            }
-        }
-
         DrawDebugLines();
     }
 
     public void Die()
     {
-        _isDead = true;
+        IsDead = true;
         Destroy(gameObject);
     }
 
@@ -374,14 +365,6 @@ public class PlantCharacter : MonoBehaviour
         }
 
         return Vector3.Angle(_groundNormal, transform.up);
-    }
-
-    private bool IsOnScreen()
-    {
-        Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
-        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-
-        return onScreen;
     }
 
     private void DrawDebugLines()

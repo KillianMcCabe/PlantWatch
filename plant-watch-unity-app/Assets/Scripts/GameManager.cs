@@ -77,6 +77,9 @@ public class GameManager : MonoBehaviour
     private bool _showTutorial = false; // TODO: load from playerprefs
     private Coroutine _gameResumeCoroutine = null;
 
+    private PlantCharacter _leftCopyOfPlantCharacter = null;
+    private PlantCharacter _rightCopyOfPlantCharacter = null;
+
     public Vector3 PlantPosition
     {
         get { return _plantCharacter.Position; }
@@ -126,8 +129,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _plantCharacter.OnOffscreen += HandlePlantOffscreen;
-
         if (ApplicationManager.Instance?.SelectedPlant != null)
         {
             // _plantCharacter.PlantSprite = ApplicationManager.Instance.SelectedPlant.Sprite;
@@ -140,6 +141,10 @@ public class GameManager : MonoBehaviour
         _mainCameraAnimator.speed = 0;
 
         _gameState = GameState.StartScreen;
+        _leftCopyOfPlantCharacter = Instantiate(_plantCharacter);
+        _leftCopyOfPlantCharacter.enabled = false;
+        _rightCopyOfPlantCharacter = Instantiate(_plantCharacter);
+        _rightCopyOfPlantCharacter.enabled = false;
     }
 
     void Update()
@@ -150,7 +155,6 @@ public class GameManager : MonoBehaviour
             _score += Time.deltaTime;
             _score = Mathf.Clamp(_score, 0, ScoreGoal);
 
-
             _plantCharacter.Growth = _score / ScoreGoal;
             _growthBar.FillAmount = _plantCharacter.Growth;
 
@@ -158,6 +162,68 @@ public class GameManager : MonoBehaviour
             {
                 ApplicationManager.Instance.PlayerWin();
             }
+        }
+
+        if (!_plantCharacter.IsDead)
+        {
+            Vector3 screenPoint = Camera.main.WorldToViewportPoint(_plantCharacter.transform.position);
+            bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+            if (!onScreen)
+            {
+                if (_gameState == GameState.StartScreen)
+                {
+                    // Move the plant character to other side of the screen
+                    if (screenPoint.x < 0)
+                    {
+                        _plantCharacter.transform.position += Camera.main.transform.right * CalculateCameraWidth();
+                    }
+                    if (screenPoint.x > 1)
+                    {
+                        _plantCharacter.transform.position -= Camera.main.transform.right * CalculateCameraWidth();
+                    }
+                    if (screenPoint.y < 0)
+                    {
+                        _plantCharacter.transform.position += Camera.main.transform.up * CalculateCameraHeight();
+                    }
+                    if (screenPoint.y > 1)
+                    {
+                        _plantCharacter.transform.position -= Camera.main.transform.up * CalculateCameraHeight();
+                    }
+                }
+                else
+                {
+                    _plantCharacter.Die();
+
+                    _shakeTransform.AddShakeEvent(_deathShakeEvent);
+
+                    if (_setupCoroutine != null)
+                    {
+                        StopCoroutine(_setupCoroutine);
+                    }
+
+                    if (_birdSpawner != null)
+                    {
+                        _birdSpawner.IsSpawning = false;
+                    }
+
+                    _restartWindow.SetActive(true);
+                }
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (_gameState == GameState.StartScreen)
+        {
+            // update plant character copies
+            float cameraWidth = CalculateCameraWidth();
+            _leftCopyOfPlantCharacter.transform.position   = _plantCharacter.transform.position - Camera.main.transform.right * cameraWidth;
+            _leftCopyOfPlantCharacter.transform.rotation   = _plantCharacter.transform.rotation;
+            _leftCopyOfPlantCharacter.transform.localScale = _plantCharacter.transform.localScale;
+            _rightCopyOfPlantCharacter.transform.position   = _plantCharacter.transform.position + Camera.main.transform.right * cameraWidth;
+            _rightCopyOfPlantCharacter.transform.rotation   = _plantCharacter.transform.rotation;
+            _rightCopyOfPlantCharacter.transform.localScale = _plantCharacter.transform.localScale;
         }
     }
 
@@ -174,6 +240,11 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _gameState = GameState.Game;
+
+        Destroy(_leftCopyOfPlantCharacter.gameObject);
+        _leftCopyOfPlantCharacter = null;
+        Destroy(_rightCopyOfPlantCharacter.gameObject);
+        _rightCopyOfPlantCharacter = null;
 
         _birdSpawner = Instantiate(_birdSpawnerPrefab, _worldTilter.transform);
         _birdSpawner.transform.localPosition = new Vector3(0, 1.2f, 0);
@@ -206,42 +277,18 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    private void HandlePlantOffscreen()
+    private float CalculateCameraWidth()
     {
-        if (_gameState == GameState.StartScreen)
-        {
-            // Move the plant character to other side of the screen
-            Vector2 middleRightCorner = new Vector2(1, 0.5f);
-            Vector2 edgeWorldPosition = Camera.main.ViewportToWorldPoint(middleRightCorner);
-            float cameraWidth = edgeWorldPosition.x * 2;
+        Vector2 middleRightCorner = new Vector2(1, 0.5f);
+        Vector2 edgeWorldPosition = Camera.main.ViewportToWorldPoint(middleRightCorner);
+        return edgeWorldPosition.x * 2;
+    }
 
-            if (_plantCharacter.transform.position.x > 0)
-            {
-                _plantCharacter.transform.position -= Camera.main.transform.right * cameraWidth;
-            }
-            else
-            {
-                _plantCharacter.transform.position += Camera.main.transform.right * cameraWidth;
-            }
-        }
-        else
-        {
-            _plantCharacter.Die();
-
-            _shakeTransform.AddShakeEvent(_deathShakeEvent);
-
-            if (_setupCoroutine != null)
-            {
-                StopCoroutine(_setupCoroutine);
-            }
-
-            if (_birdSpawner != null)
-            {
-                _birdSpawner.IsSpawning = false;
-            }
-
-            _restartWindow.SetActive(true);
-        }
+    private float CalculateCameraHeight()
+    {
+        Vector2 topCenterCorner = new Vector2(0.5f, 1f);
+        Vector2 edgeWorldPosition = Camera.main.ViewportToWorldPoint(topCenterCorner);
+        return edgeWorldPosition.y * 2;
     }
 
     private IEnumerator GameSetupCoroutine()
