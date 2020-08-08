@@ -5,23 +5,29 @@ using UnityEngine.UI;
 
 public class PlantSelection : MonoBehaviour
 {
+    [Header("Child componenets")]
+
     [SerializeField]
-    private PlantData[] _plantOptions = null;
+    private Text _plantIndexText = null;
+
+    [SerializeField]
+    private Text _plantNameText = null;
+
+    [Header("Scene references")]
 
     [SerializeField]
     private PlantCharacter _plantCharacter = null;
 
+    [Header("Asset references")]
+
     [SerializeField]
-    private Text _plantName = null;
+    private PlantData[] _plantOptions = null;
 
-    int _plantIndex = 0;
+    private int _plantIndex = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _plantIndex = 0;
-        _plantCharacter.SetPlant(_plantOptions[_plantIndex]);
-        _plantName.text = _plantOptions[_plantIndex].name;
+        UpdateView();
     }
 
     public void NextPlant()
@@ -31,8 +37,8 @@ public class PlantSelection : MonoBehaviour
         {
             _plantIndex = _plantOptions.Length + _plantIndex;
         }
-        _plantCharacter.SetPlant(_plantOptions[_plantIndex]);
-        _plantName.text = _plantOptions[_plantIndex].name;
+
+        UpdateView();
     }
 
     public void PrevPlant()
@@ -42,7 +48,14 @@ public class PlantSelection : MonoBehaviour
         {
             _plantIndex = _plantOptions.Length + _plantIndex;
         }
+
+        UpdateView();
+    }
+
+    private void UpdateView()
+    {
         _plantCharacter.SetPlant(_plantOptions[_plantIndex]);
-        _plantName.text = _plantOptions[_plantIndex].name;
+        _plantNameText.text = _plantOptions[_plantIndex].name;
+        _plantIndexText.text = $"{_plantIndex+1} / {_plantOptions.Length}";
     }
 }
