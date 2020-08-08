@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// The manager script for the game scene
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     enum GameState
