@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -151,7 +151,8 @@ public class PlantCharacter : MonoBehaviour
             Debug.LogError("MovementController2D requires layerMask \"Ground\"");
         }
 
-        Growth = 0;
+        // plant should appear fully grown in the selection screen
+        Growth = 1f;
 
         if (UnityEngine.Random.Range(0f, 100f) < 50f)
         {
@@ -325,9 +326,16 @@ public class PlantCharacter : MonoBehaviour
         }
 
         _plant = Instantiate(plantData.PlantPrefab, _plantTransform);
+        _plant.SetGrowAnimationTime(_growth);
+    }
 
-        if (_plant != null)
-            _plant.SetGrowAnimationTime(_growth);
+    private Coroutine _growCoroutine = null;
+    public void AnimateGrowthTo(int value)
+    {
+        if (_growCoroutine != null)
+            StopCoroutine(_growCoroutine);
+
+        _growCoroutine = StartCoroutine(GrowAnimation(value));
     }
 
     public void Knockback(Vector3 knockbackVelocity)
@@ -367,6 +375,19 @@ public class PlantCharacter : MonoBehaviour
         return Vector3.Angle(_groundNormal, transform.up);
     }
 
+    private IEnumerator GrowAnimation(float growTo)
+    {
+        const float GrowAnimationSpeed = 1f;
+
+        while (Growth != growTo)
+        {
+            Growth = Mathf.MoveTowards(Growth, growTo, GrowAnimationSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        _growCoroutine = null;
+    }
+
     private void DrawDebugLines()
     {
         if (!_debug)
@@ -386,7 +407,7 @@ public class PlantCharacter : MonoBehaviour
     }
 
     // when the GameObjects collider arrange for this GameObject to travel to the left of the screen
-    void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "RainCloud")
         {
@@ -406,7 +427,7 @@ public class PlantCharacter : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D col)
+    private void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == "RainCloud")
         {

@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
         _rightCopyOfPlantCharacter.enabled = false;
     }
 
-    void Update()
+    private void Update()
     {
         _growthBar.IsGrowing = _plantCharacter.IsWet;
         if (_plantCharacter.IsWet)
@@ -256,6 +256,9 @@ public class GameManager : MonoBehaviour
         _rainCloud = Instantiate(_cloudPrefab, _worldTilter.transform);
         _rainCloud.transform.localPosition = new Vector3(0, 4.5f, 0);
         _rainCloud.gameObject.SetActive(false);
+
+        // plant should start as a small sapling
+        _plantCharacter.AnimateGrowthTo(0);
 
         _setupCoroutine = StartCoroutine(GameSetupCoroutine());
     }
